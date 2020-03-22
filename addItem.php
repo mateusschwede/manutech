@@ -8,10 +8,10 @@
         $valor = $_POST['valor'];
         $cnpj = $_POST['cnpj'];
 
-        $r = $db->prepare('INSERT INTO item(descricao,valor,cnpjFornecedor) VALUES (:descricao,:valor,:cnpjFornecedor)');
-        $r->execute(array(':descricao'=>$descricao,':valor'=>$valor,':cnpj'=>$cnpj));
+        $r = $db->prepare('INSERT INTO item(descricao,valor,cnpjFornecedor) VALUES (?,?,?)');
+        $r->execute(array($descricao,$valor,$cnpj));
 
-        $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Item código ".$_POST['id']." já adicionado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+        $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Item código ".$_POST['id']." adicionado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
         header("location: item.php");
     }
 ?>

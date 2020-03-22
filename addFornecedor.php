@@ -8,8 +8,15 @@
         $r->execute(array(':cnpj'=>$_POST['cnpj']));
         if($r->rowCount()>0) {$_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Cnpj ".$_POST['cnpj']." já existente!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";}
         else {
-            $r2 = $db->prepare("INSERT INTO fornecedor(cnpj,nome,telefone,endereco) VALUES (:cnpj,:nome,telefone,:endereco)");
-            $r2->execute(array(':cnpj'=>$_POST['cnpj'],':nome'=>strtolower($_POST['nome']),':telefone'=>$_POST['telefone'],':endereco'=>strtolower($_POST['endereco'])));
+            $cnpj = $_POST['cnpj'];
+            $nome = strtolower($_POST['nome']);
+            $telefone = $_POST['telefone'];
+            $endereco = strtolower($_POST['endereco']);
+
+            $r2 = $db->prepare("INSERT INTO fornecedor(cnpj,nome,telefone,endereco) VALUES (?,?,?,?)");
+            $r2->execute(array($cnpj,$nome,$telefone,$endereco));
+
+            $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Cnpj ".$_POST['cnpj']." adicionado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
             header("location: fornecedor.php");
         }
     }
@@ -80,7 +87,7 @@
         </div>
     </div>
 
-    <?php if($_SESSION['msgm'] != null) {echo $_SESSION['msgm'];} ?>
+    <?php if($_SESSION['msgm'] != null) {echo $_SESSION['msgm']; $_SESSION['msgm']=null;} ?>
 
 
 </div>
