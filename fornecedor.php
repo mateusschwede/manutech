@@ -40,6 +40,8 @@
         </div>
     </div>
 
+    <?php if($_SESSION['msgm'] != null) {echo $_SESSION['msgm'];} ?>
+
     <div class="row">
         <div class="col-sm-8">
             <h3><svg class="bi bi-bag-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M1 4h14v10a2 2 0 01-2 2H3a2 2 0 01-2-2V4zm7-2.5A2.5 2.5 0 005.5 4h-1a3.5 3.5 0 117 0h-1A2.5 2.5 0 008 1.5z"/></svg> Fornecedores:</h3>
@@ -54,7 +56,7 @@
                         <p><strong>Telefone:</strong> ".$l['telefone']."</p>
                         <p><strong>Endereço:</strong> ".$l['endereco']."</p>
                         <a href='updateFornecedor.php?cnpj=".$l['cnpj']."' class='btn btn-warning btn-sm'>Editar</a>
-                        <a href='inativarFornecedor.php?cnpj=".$l['cnpj']."' class='btn btn-danger btn-sm'>Inativar</a>
+                        <a href='inativarFornecedor.php?cnpj=".base64_encode($l['cnpj'])."' class='btn btn-danger btn-sm'>Inativar</a>
                         <hr>
                     ";
                 }
