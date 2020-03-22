@@ -2,6 +2,25 @@
     require_once 'conect.php';
     session_start();
     if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
+
+    if((!empty($_POST['placa'])) and (!empty($_POST['modelo'])) and (!empty($_POST['quilometragem'])) and (!empty($_POST['cpf']))) {
+        $placa = strtolower($_POST['placa']);
+        $modelo = strtolower($_POST['modelo']);
+        $quilometragem = $_POST['quilometragem'];
+        $cpf = $_POST['cpf'];
+
+        $r = $db->prepare("SELECT placa FROM veiculo WHERE placa=?");
+        $r->execute(array($placa));
+        if($r->rowCount()>0) {$_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Veículo placa ".$placa." já existente!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";}
+        else {
+            $r2 = $db->prepare("INSERT INTO veiculo(placa,modelo,quilometragem,cpfProprietario) VALUES (?,?,?,?)");
+            $r2->execute(array($placa, $modelo, $quilometragem, $cpf));
+
+            $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Veículo placa ".$placa." adicionado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+            header("location: veiculo.php");
+        }
+
+    }
 ?>
 
 <!doctype html>
@@ -43,18 +62,25 @@
     <div class="row">
         <div class="col-sm-12">
             <h3><svg class="bi bi-cone" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7.03 1.88c.252-1.01 1.688-1.01 1.94 0L12 14H4L7.03 1.88z"/><path fill-rule="evenodd" d="M1.5 14a.5.5 0 01.5-.5h12a.5.5 0 010 1H2a.5.5 0 01-.5-.5z" clip-rule="evenodd"/></svg> Adicionar veículo:</h3>
-            <form action="addCliente.php" method="post">
+            <form action="addVeiculo.php" method="post">
                 <div class="form-group">
                     <input type="text" class="form-control" name="placa" placeholder="Placa" minlength="7" maxlength="7">
                 </div>
                 <div class="form-group">
-                    <input type="number" class="form-control" name="modelo" placeholder="Modelo" maxlength="100">
+                    <input type="text" class="form-control" name="modelo" placeholder="Modelo" maxlength="100">
                 </div>
                 <div class="form-group">
-                    <input type="number" class="form-control" name="quilometragem" placeholder="Quilometragem(Km)" min=0 max=9999999>
+                    <input type="number" step="0.01" class="form-control" name="quilometragem" placeholder="Quilometragem(Km)" min=0 max=9999999>
                 </div>
                 <div class="form-group">
-                    <input type="number" class="form-control" name="cpfProprietario" placeholder="Cpf proprietário" min=10000000000 max=99999999999>
+                    <label for="selectCpf">Cpf Proprietário</label>
+                    <select class="form-control" id="selectCpf" name="cpf">
+                        <?php
+                        $r = $db->query("SELECT cpf,nome FROM cliente WHERE ativo=1");
+                        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($linhas as $l) {echo "<option value=".$l['cpf'].">".$l['cpf']." ".$l['nome']."</option>";}
+                        ?>
+                    </select>
                 </div>
 
                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
@@ -68,6 +94,8 @@
             </form>
         </div>
     </div>
+
+    <?php if($_SESSION['msgm'] != null) {echo $_SESSION['msgm']; $_SESSION['msgm']=null;} ?>
 
 
 </div>
