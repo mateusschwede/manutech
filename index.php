@@ -8,6 +8,7 @@ if((!empty($_POST['nome'])) and (!empty($_POST['senha']))) {
         session_start();
         $_SESSION['nomeLogin'] = strtolower($_POST['nome']);
         $_SESSION['senhaLogin'] = strtolower($_POST['senha']);
+        $_SESSION['msgm'] = null;
         header("location: painel.php");
     }
 }

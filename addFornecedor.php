@@ -2,6 +2,17 @@
     require_once 'conect.php';
     session_start();
     if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
+
+    if((!empty($_POST['cnpj'])) and (!empty($_POST['nome'])) and (!empty($_POST['telefone'])) and (!empty($_POST['endereco']))) {
+        $r = $db->prepare("SELECT cnpj FROM fornecedor WHERE cnpj=:cnpj");
+        $r->execute(array(':cnpj'=>$_POST['cnpj']));
+        if($r->rowCount()>0) {$_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Cnpj ".$_POST['cnpj']." já existente!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";}
+        else {
+            $r2 = $db->prepare("INSERT INTO fornecedor(cnpj,nome,telefone,endereco) VALUES (:cnpj,:nome,telefone,:endereco)");
+            $r2->execute(array(':cnpj'=>$_POST['cnpj'],':nome'=>strtolower($_POST['nome']),':telefone'=>$_POST['telefone'],':endereco'=>strtolower($_POST['endereco'])));
+            header("location: fornecedor.php");
+        }
+    }
 ?>
 
 <!doctype html>
@@ -45,7 +56,7 @@
             <h3><svg class="bi bi-bag-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M1 4h14v10a2 2 0 01-2 2H3a2 2 0 01-2-2V4zm7-2.5A2.5 2.5 0 005.5 4h-1a3.5 3.5 0 117 0h-1A2.5 2.5 0 008 1.5z"/></svg> Adicionar fornecedor:</h3>
             <form action="addFornecedor.php" method="post">
                 <div class="form-group">
-                    <input type="number" class="form-control" name="cnpj" placeholder="Cnpj" min=10000000000000 max=99999999999999>
+                    <input type="number" class="form-control" name="cnpj" placeholder="Cnpj" min=00000000000001 max=99999999999999>
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" name="nome" placeholder="Nome" maxlength="50">
@@ -68,6 +79,8 @@
             </form>
         </div>
     </div>
+
+    <?php if($_SESSION['msgm'] != null) {echo $_SESSION['msgm'];} ?>
 
 
 </div>
