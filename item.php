@@ -1,7 +1,7 @@
 <?php
-require_once 'conect.php';
-session_start();
-if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
+    require_once 'conect.php';
+    session_start();
+    if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
 ?>
 
 <!doctype html>
@@ -40,6 +40,8 @@ if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header
         </div>
     </div>
 
+    <?php if($_SESSION['msgm'] != null) {echo $_SESSION['msgm']; $_SESSION['msgm']=null;} ?>
+
     <div class="row">
         <div class="col-sm-8">
             <h3><svg class="bi bi-droplet-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 16a6 6 0 006-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 006 6zM6.646 4.646c-.376.377-1.272 1.489-2.093 3.13l.894.448c.78-1.559 1.616-2.58 1.907-2.87l-.708-.708z" clip-rule="evenodd"/></svg> Ítens:</h3>
@@ -49,14 +51,14 @@ if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header
             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
             foreach($linhas as $l) {
                 echo "
-                        <small><strong>Código:</strong> ".$l['id']."</small>
-                        <p><strong>Descrição:</strong> ".$l['descricao']."</p>
-                        <p><strong>Valor: R$</strong> ".$l['valor']."</p>
-                        <p><strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
-                        <a href='updateItem.php?id=".$l['id']."' class='btn btn-warning btn-sm'>Editar</a>
-                        <a href='inativarItem.php?id=".$l['id']."' class='btn btn-danger btn-sm'>Inativar</a>
-                        <hr>
-                    ";
+                    <small><strong>Código:</strong> ".$l['id']."</small>
+                    <p><strong>Descrição:</strong> ".$l['descricao']."</p>
+                    <p><strong>Valor: R$</strong> ".$l['valor']."</p>
+                    <p><strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
+                    <a href='updateItem.php?id=".$l['id']."' class='btn btn-warning btn-sm'>Editar</a>
+                    <a href='inativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-danger btn-sm'>Inativar</a>
+                    <hr>
+                ";
             }
             ?>
         </div>
@@ -68,13 +70,13 @@ if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header
             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
             foreach($linhas as $l) {
                 echo "
-                        <small><strong>Código:</strong> ".$l['id']."</small>
-                        <p><strong>Descrição:</strong> ".$l['descricao']."</p>
-                        <p><strong>Valor:</strong> ".$l['valor']." km</p>
-                        <p><strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
-                        <a href='ativarItem.php?id=".$l['id']."' class='btn btn-warning btn-sm'>Ativar</a>
-                        <hr>
-                    ";
+                    <small><strong>Código:</strong> ".$l['id']."</small>
+                    <p><strong>Descrição:</strong> ".$l['descricao']."</p>
+                    <p><strong>Valor:</strong> ".$l['valor']." km</p>
+                    <p><strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
+                    <a href='ativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-warning btn-sm'>Ativar</a>
+                    <hr>
+                ";
             }
             ?>
         </div>
