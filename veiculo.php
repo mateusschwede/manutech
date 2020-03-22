@@ -1,7 +1,7 @@
 <?php
-require_once 'conect.php';
-session_start();
-if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
+    require_once 'conect.php';
+    session_start();
+    if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
 ?>
 
 <!doctype html>
@@ -51,14 +51,14 @@ if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header
             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
             foreach($linhas as $l) {
                 echo "
-                        <small><strong>Placa:</strong> ".$l['placa']."</small>
-                        <p><strong>Modelo:</strong> ".$l['modelo']."</p>
-                        <p><strong>Quilometragem:</strong> ".$l['quilometragem']." km</p>
-                        <p><strong>Proprietário:</strong> ".$l['cpfProprietario']."</p>
-                        <a href='updateVeiculo.php?placa=".$l['placa']."' class='btn btn-warning btn-sm'>Editar</a>
-                        <a href='inativarVeiculo.php?placa=".base64_encode($l['placa'])."' class='btn btn-danger btn-sm'>Inativar</a>
-                        <hr>
-                    ";
+                    <small><strong>Placa:</strong> ".$l['placa']."</small>
+                    <p><strong>Modelo:</strong> ".$l['modelo']."</p>
+                    <p><strong>Quilometragem:</strong> ".$l['quilometragem']." km</p>
+                    <p><strong>Proprietário:</strong> ".$l['cpfProprietario']."</p>
+                    <a href='updateVeiculo.php?placa=".$l['placa']."' class='btn btn-warning btn-sm'>Editar</a>
+                    <a href='inativarVeiculo.php?placa=".base64_encode($l['placa'])."' class='btn btn-danger btn-sm'>Inativar</a>
+                    <hr>
+                ";
             }
             ?>
         </div>
@@ -70,13 +70,13 @@ if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header
             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
             foreach($linhas as $l) {
                 echo "
-                        <small><strong>Placa:</strong> ".$l['placa']."</small>
-                        <p><strong>Modelo:</strong> ".$l['modelo']."</p>
-                        <p><strong>Quilometragem:</strong> ".$l['quilometragem']." km</p>
-                        <p><strong>Proprietário:</strong> ".$l['cpfProprietario']."</p>
-                        <a href='ativarVeiculo.php?placa=".base64_encode($l['placa'])."' class='btn btn-warning btn-sm'>Ativar</a>
-                        <hr>
-                    ";
+                    <small><strong>Placa:</strong> ".$l['placa']."</small>
+                    <p><strong>Modelo:</strong> ".$l['modelo']."</p>
+                    <p><strong>Quilometragem:</strong> ".$l['quilometragem']." km</p>
+                    <p><strong>Proprietário:</strong> ".$l['cpfProprietario']."</p>
+                    <a href='ativarVeiculo.php?placa=".base64_encode($l['placa'])."' class='btn btn-warning btn-sm'>Ativar</a>
+                    <hr>
+                ";
             }
             ?>
         </div>
