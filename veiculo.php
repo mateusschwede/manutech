@@ -40,6 +40,8 @@ if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header
         </div>
     </div>
 
+    <?php if($_SESSION['msgm'] != null) {echo $_SESSION['msgm']; $_SESSION['msgm']=null;} ?>
+
     <div class="row">
         <div class="col-sm-8">
             <h3><svg class="bi bi-cone" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7.03 1.88c.252-1.01 1.688-1.01 1.94 0L12 14H4L7.03 1.88z"/><path fill-rule="evenodd" d="M1.5 14a.5.5 0 01.5-.5h12a.5.5 0 010 1H2a.5.5 0 01-.5-.5z" clip-rule="evenodd"/></svg> Veículos:</h3>
@@ -54,7 +56,7 @@ if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header
                         <p><strong>Quilometragem:</strong> ".$l['quilometragem']." km</p>
                         <p><strong>Proprietário:</strong> ".$l['cpfProprietario']."</p>
                         <a href='updateVeiculo.php?placa=".$l['placa']."' class='btn btn-warning btn-sm'>Editar</a>
-                        <a href='inativarVeiculo.php?placa=".$l['placa']."' class='btn btn-danger btn-sm'>Inativar</a>
+                        <a href='inativarVeiculo.php?placa=".base64_encode($l['placa'])."' class='btn btn-danger btn-sm'>Inativar</a>
                         <hr>
                     ";
             }
@@ -72,7 +74,7 @@ if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header
                         <p><strong>Modelo:</strong> ".$l['modelo']."</p>
                         <p><strong>Quilometragem:</strong> ".$l['quilometragem']." km</p>
                         <p><strong>Proprietário:</strong> ".$l['cpfProprietario']."</p>
-                        <a href='ativarVeiculo.php?placa=".$l['placa']."' class='btn btn-warning btn-sm'>Ativar</a>
+                        <a href='ativarVeiculo.php?placa=".base64_encode($l['placa'])."' class='btn btn-warning btn-sm'>Ativar</a>
                         <hr>
                     ";
             }
