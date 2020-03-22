@@ -74,7 +74,7 @@
                         <p><strong>Nome:</strong> ".$l['nome']."</p>
                         <p><strong>Telefone:</strong> ".$l['telefone']."</p>
                         <p><strong>Endereço:</strong> ".$l['endereco']."</p>
-                        <a href='ativarFornecedor.php?cnpj=".$l['cnpj']."' class='btn btn-warning btn-sm'>Ativar</a>
+                        <a href='ativarFornecedor.php?cnpj=".base64_encode($l['cnpj'])."' class='btn btn-warning btn-sm'>Ativar</a>
                         <hr>
                     ";
             }
