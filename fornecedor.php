@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <?php if($_SESSION['msgm'] != null) {echo $_SESSION['msgm'];} ?>
+    <?php if($_SESSION['msgm'] != null) {echo $_SESSION['msgm']; $_SESSION['msgm']=null;} ?>
 
     <div class="row">
         <div class="col-sm-8">

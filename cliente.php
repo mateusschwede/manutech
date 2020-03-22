@@ -40,6 +40,8 @@ if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header
         </div>
     </div>
 
+    <?php if($_SESSION['msgm'] != null) {echo $_SESSION['msgm']; $_SESSION['msgm']=null;} ?>
+
     <div class="row">
         <div class="col-sm-8">
             <h3><svg class="bi bi-people-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zm-5.784 6A2.238 2.238 0 015 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 005 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" clip-rule="evenodd"/></svg> Clientes:</h3>
@@ -54,7 +56,7 @@ if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header
                         <p><strong>Telefone:</strong> ".$l['telefone']."</p>
                         <p><strong>Endereço:</strong> ".$l['endereco']."</p>
                         <a href='updateCliente.php?cpf=".$l['cpf']."' class='btn btn-warning btn-sm'>Editar</a>
-                        <a href='inativarCliente.php?cpf=".$l['cpf']."' class='btn btn-danger btn-sm'>Inativar</a>
+                        <a href='inativarCliente.php?cpf=".base64_encode($l['cpf'])."' class='btn btn-danger btn-sm'>Inativar</a>
                         <hr>
                     ";
             }
@@ -68,13 +70,13 @@ if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header
             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
             foreach($linhas as $l) {
                 echo "
-                        <small><strong>Cpf:</strong> ".$l['cpf']."</small>
-                        <p><strong>Nome:</strong> ".$l['nome']."</p>
-                        <p><strong>Telefone:</strong> ".$l['telefone']."</p>
-                        <p><strong>Endereço:</strong> ".$l['endereco']."</p>
-                        <a href='ativarCliente.php?cpf=".$l['cpf']."' class='btn btn-warning btn-sm'>Ativar</a>
-                        <hr>
-                    ";
+                    <small><strong>Cpf:</strong> ".$l['cpf']."</small>
+                    <p><strong>Nome:</strong> ".$l['nome']."</p>
+                    <p><strong>Telefone:</strong> ".$l['telefone']."</p>
+                    <p><strong>Endereço:</strong> ".$l['endereco']."</p>
+                    <a href='ativarCliente.php?cpf=".base64_encode($l['cpf'])."' class='btn btn-warning btn-sm'>Ativar</a>
+                    <hr>
+                ";
             }
             ?>
         </div>
