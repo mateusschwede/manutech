@@ -2,6 +2,31 @@
     require_once 'conect.php';
     session_start();
     if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
+
+    if((!empty($_GET['id']))) {
+        $id = base64_decode($_GET['id']);
+        $r = $db->prepare("SELECT * FROM item WHERE id=?");
+        $r->execute(array($id));
+        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($linhas as $l) {
+            $descricao = $l['descricao'];
+            $valor = $l['valor'];
+            $cnpj = $l['cnpjFornecedor'];
+        }
+    }
+
+    if((!empty($_POST['id2'])) and (!empty($_POST['descricao'])) and (!empty($_POST['valor'])) and (!empty($_POST['cnpj']))) {
+        $id = base64_decode($_POST['id2']);
+        $descricao = strtolower($_POST['descricao']);
+        $valor = $_POST['valor'];
+        $cnpj = $_POST['cnpj'];
+
+        $r = $db->prepare("UPDATE item SET descricao=?,valor=?,cnpjFornecedor=? WHERE id=?");
+        $r->execute(array($descricao,$valor,$cnpj,$id));
+
+        $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Item código ".$id." atualizado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+        header("location: item.php");
+    }
 ?>
 
 <!doctype html>
@@ -40,45 +65,38 @@
         </div>
     </div>
 
-    <?php if($_SESSION['msgm'] != null) {echo $_SESSION['msgm']; $_SESSION['msgm']=null;} ?>
-
     <div class="row">
-        <div class="col-sm-8">
-            <h3><svg class="bi bi-droplet-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 16a6 6 0 006-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 006 6zM6.646 4.646c-.376.377-1.272 1.489-2.093 3.13l.894.448c.78-1.559 1.616-2.58 1.907-2.87l-.708-.708z" clip-rule="evenodd"/></svg> Ítens:</h3>
-            <button type="button" class="btn btn-primary" onclick="window.location.href='addItem.php'">Novo</button><br>
-            <?php
-            $r = $db->query("SELECT * FROM item WHERE ativo=1 ORDER BY id DESC");
-            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-            foreach($linhas as $l) {
-                echo "
-                    <small><strong>Código:</strong> ".$l['id']."</small>
-                    <p><strong>Descrição:</strong> ".$l['descricao']."</p>
-                    <p><strong>Valor: R$</strong> ".$l['valor']."</p>
-                    <p><strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
-                    <a href='updateItem.php?id=".base64_encode($l['id'])."' class='btn btn-warning btn-sm'>Editar</a>
-                    <a href='inativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-danger btn-sm'>Inativar</a>
-                    <hr>
-                ";
-            }
-            ?>
-        </div>
+        <div class="col-sm-12">
+            <h3><svg class="bi bi-droplet-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 16a6 6 0 006-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 006 6zM6.646 4.646c-.376.377-1.272 1.489-2.093 3.13l.894.448c.78-1.559 1.616-2.58 1.907-2.87l-.708-.708z" clip-rule="evenodd"/></svg> Editar ítem:</h3>
+            <form action="updateItem.php?id2=<?echo base64_encode($id)?>" method="post">
+                <div class="form-group">
+                    <input type="text" class="form-control" required name="descricao" placeholder="Descrição" maxlength="50" value="<?echo $descricao?>">
+                </div>
+                <div class="form-group">
+                    <input type="number" step="0.01" class="form-control" required name="valor" placeholder="Valor(R$) 20.80" min=1 max=1000000 value="<?echo $valor?>">
+                </div>
+                <div class="form-group">
+                    <label for="selectCnpj">Cnpj Fornecedor</label>
+                    <select class="form-control" id="selectCnpj" required name="cnpj">
+                        <option value="<?echo $l['cnpjFornecedor']?>"><?echo $l['cnpjFornecedor']?></option>
+                        <?php
+                            $r = $db->query("SELECT cnpj,nome FROM fornecedor WHERE ativo=1");
+                            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                            foreach($linhas as $l) {echo "<option value=".$l['cnpj'].">".$l['cnpj']." ".$l['nome']."</option>";}
+                        ?>
+                    </select>
+                </div>
 
-        <div class="col-sm-4" id="teste">
-            <h3><svg class="bi bi-droplet-fill text-danger" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 16a6 6 0 006-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 006 6zM6.646 4.646c-.376.377-1.272 1.489-2.093 3.13l.894.448c.78-1.559 1.616-2.58 1.907-2.87l-.708-.708z" clip-rule="evenodd"/></svg> Ítens Inativos:</h3>
-            <?php
-            $r = $db->query("SELECT * FROM item WHERE ativo=0 ORDER BY id DESC");
-            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-            foreach($linhas as $l) {
-                echo "
-                    <small><strong>Código:</strong> ".$l['id']."</small>
-                    <p><strong>Descrição:</strong> ".$l['descricao']."</p>
-                    <p><strong>Valor:</strong> ".$l['valor']." km</p>
-                    <p><strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
-                    <a href='ativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-warning btn-sm'>Ativar</a>
-                    <hr>
-                ";
-            }
-            ?>
+
+                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group mr-2" role="group">
+                        <a href="item.php" class="btn btn-danger">Cancelar</a>
+                    </div>
+                    <div class="btn-group mr-2" role="group">
+                        <button type="submit" class="btn btn-primary">Atualizar</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
