@@ -1,7 +1,39 @@
 <?php
-    require_once 'conect.php';
-    session_start();
-    if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
+require_once 'conect.php';
+session_start();
+if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
+
+if((!empty($_GET['cnpj']))) {
+    $cnpj1 = base64_decode($_GET['cnpj']);
+    $r = $db->prepare("SELECT * FROM fornecedor WHERE cnpj=?");
+    $r->execute(array($cnpj1));
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($linhas as $l) {
+        $nome = $l['nome'];
+        $telefone = $l['telefone'];
+        $endereco = $l['endereco'];
+    }
+}
+
+if((!empty($_GET['cnpj2'])) and (!empty($_POST['cnpj'])) and (!empty($_POST['nome'])) and (!empty($_POST['telefone'])) and (!empty($_POST['endereco']))) {
+    $cnpj1 = base64_decode($_GET['cnpj2']);
+    $cnpjNovo = $_POST['cnpj'];
+    $nome = strtolower($_POST['nome']);
+    $telefone = $_POST['telefone'];
+    $endereco = strtolower($_POST['endereco']);
+
+    $r = $db->prepare("SELECT cnpj FROM fornecedor WHERE cnpj=?");
+    $r->execute(array($cnpjNovo));
+
+    if($r->rowCount()>1) {$_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Cnpj ".$cnpjNovo." já cadastrado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";}
+    else {
+        $r = $db->prepare("UPDATE fornecedor,item SET fornecedor.cnpj=?,fornecedor.nome=?,fornecedor.telefone=?,fornecedor.endereco=?,item.cnpjFornecedor=? WHERE fornecedor.cnpj=? AND item.cnpjFornecedor=?");
+        $r->execute(array($cnpjNovo,$nome,$telefone,$endereco,$cnpjNovo,$cnpj1,$cnpj1));
+
+        $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Cnpj ".$cnpjNovo." atualizado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+        header("location: fornecedor.php");
+    }
+}
 ?>
 
 <!doctype html>
@@ -40,45 +72,44 @@
         </div>
     </div>
 
-    <?php if($_SESSION['msgm'] != null) {echo $_SESSION['msgm']; $_SESSION['msgm']=null;} ?>
-
     <div class="row">
-        <div class="col-sm-8">
-            <h3><svg class="bi bi-bag-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M1 4h14v10a2 2 0 01-2 2H3a2 2 0 01-2-2V4zm7-2.5A2.5 2.5 0 005.5 4h-1a3.5 3.5 0 117 0h-1A2.5 2.5 0 008 1.5z"/></svg> Fornecedores:</h3>
-            <button type="button" class="btn btn-primary" onclick="window.location.href='addFornecedor.php'">Novo</button><br>
-            <?php
-                $r = $db->query("SELECT * FROM fornecedor WHERE ativo=1 ORDER BY nome DESC");
-                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                foreach($linhas as $l) {
-                    echo "
-                        <small><strong>Cnpj:</strong> ".$l['cnpj']."</small>
-                        <p><strong>Nome:</strong> ".$l['nome']."</p>
-                        <p><strong>Telefone:</strong> ".$l['telefone']."</p>
-                        <p><strong>Endereço:</strong> ".$l['endereco']."</p>
-                        <a href='updateFornecedor.php?cnpj=".base64_encode($l['cnpj'])."' class='btn btn-warning btn-sm'>Editar</a>
-                        <a href='inativarFornecedor.php?cnpj=".base64_encode($l['cnpj'])."' class='btn btn-danger btn-sm'>Inativar</a>
-                        <hr>
-                    ";
-                }
-            ?>
-        </div>
+        <div class="col-sm-12">
+            <h3><svg class="bi bi-bag-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M1 4h14v10a2 2 0 01-2 2H3a2 2 0 01-2-2V4zm7-2.5A2.5 2.5 0 005.5 4h-1a3.5 3.5 0 117 0h-1A2.5 2.5 0 008 1.5z"/></svg> Editar fornecedor:</h3>
+            <form action="updateFornecedor.php?cnpj2=<?echo base64_encode($cnpj1)?>" method="post">
+                <div class="form-group">
+                    <input type="number" class="form-control" required name="cnpj" placeholder="Cnpj" min=00000000000001 max=99999999999999 value="<?echo $cnpj1?>">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" required name="nome" placeholder="Nome" maxlength="50" value="<?echo $nome?>">
+                </div>
+                <div class="form-group">
+                    <input type="number" class="form-control" required name="telefone" placeholder="Telefone" min=1000000000 max=99999999999 value="<?echo $telefone?>">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" required name="endereco" rows="3" placeholder="Endereço (rua x, nº 10, bairro y, cidade z - estado w, complemento xyz)" style="resize: none;"><?echo $endereco?></textarea>
+                </div>
 
-        <div class="col-sm-4" id="teste">
-            <h3><svg class="bi bi-bag-fill text-danger" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M1 4h14v10a2 2 0 01-2 2H3a2 2 0 01-2-2V4zm7-2.5A2.5 2.5 0 005.5 4h-1a3.5 3.5 0 117 0h-1A2.5 2.5 0 008 1.5z"/></svg> Fornecedores Inativos:</h3>
-            <?php
-            $r = $db->query("SELECT * FROM fornecedor WHERE ativo=0 ORDER BY nome DESC");
-            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-            foreach($linhas as $l) {
-                echo "
-                        <small><strong>Cnpj:</strong> ".$l['cnpj']."</small>
-                        <p><strong>Nome:</strong> ".$l['nome']."</p>
-                        <p><strong>Telefone:</strong> ".$l['telefone']."</p>
-                        <p><strong>Endereço:</strong> ".$l['endereco']."</p>
-                        <a href='ativarFornecedor.php?cnpj=".base64_encode($l['cnpj'])."' class='btn btn-warning btn-sm'>Ativar</a>
-                        <hr>
-                    ";
-            }
-            ?>
+                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group mr-2" role="group">
+                        <a href="fornecedor.php" class="btn btn-danger">Cancelar</a>
+                    </div>
+                    <div class="btn-group mr-2" role="group">
+                        <button type="submit" class="btn btn-primary">Atualizar</button>
+                    </div>
+                </div>
+            </form>
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
     </div>
 
