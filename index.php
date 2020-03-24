@@ -38,10 +38,10 @@ if((!empty($_POST['nome'])) and (!empty($_POST['senha']))) {
             <h1>ManuTech</h1>
             <form action="index.php" method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" name="nome" placeholder="Nome" maxlength="50">
+                    <input type="text" class="form-control" required name="nome" placeholder="Nome" maxlength="50">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" name="senha" placeholder="Senha" maxlength="5">
+                    <input type="password" class="form-control" required name="senha" placeholder="Senha" maxlength="5">
                 </div>
                 <button type="submit" class="btn btn-primary">Entrar</button>
             </form>
