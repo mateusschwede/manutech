@@ -29,7 +29,7 @@ CREATE TABLE cliente (
 CREATE TABLE veiculo (
     placa VARCHAR(7) NOT NULL,
     modelo VARCHAR(100) NOT NULL,
-    quilometragem BIGINT(7) NOT NULL,
+    quilometragem FLOAT NOT NULL,
     cpfProprietario BIGINT(11) NOT NULL,
     ativo BOOLEAN NOT NULL DEFAULT true,
     PRIMARY KEY(placa),

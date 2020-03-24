@@ -4,7 +4,7 @@
     if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
 
     if((!empty($_POST['placa'])) and (!empty($_POST['modelo'])) and (!empty($_POST['quilometragem'])) and (!empty($_POST['cpf']))) {
-        $placa = strtolower($_POST['placa']);
+        $placa = strtoupper($_POST['placa']);
         $modelo = strtolower($_POST['modelo']);
         $quilometragem = $_POST['quilometragem'];
         $cpf = $_POST['cpf'];
@@ -64,17 +64,17 @@
             <h3><svg class="bi bi-cone" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7.03 1.88c.252-1.01 1.688-1.01 1.94 0L12 14H4L7.03 1.88z"/><path fill-rule="evenodd" d="M1.5 14a.5.5 0 01.5-.5h12a.5.5 0 010 1H2a.5.5 0 01-.5-.5z" clip-rule="evenodd"/></svg> Adicionar veículo:</h3>
             <form action="addVeiculo.php" method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" name="placa" placeholder="Placa" minlength="7" maxlength="7">
+                    <input type="text" class="form-control" required name="placa" placeholder="Placa" minlength="7" maxlength="7">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="modelo" placeholder="Modelo" maxlength="100">
+                    <input type="text" class="form-control" required name="modelo" placeholder="Modelo" maxlength="100">
                 </div>
                 <div class="form-group">
-                    <input type="number" step="0.01" class="form-control" name="quilometragem" placeholder="Quilometragem(Km)" min=0 max=9999999>
+                    <input type="number" step="0.01" class="form-control" required name="quilometragem" placeholder="Quilometragem(Km)" min=0 max=9999999>
                 </div>
                 <div class="form-group">
                     <label for="selectCpf">Cpf Proprietário</label>
-                    <select class="form-control" id="selectCpf" name="cpf">
+                    <select class="form-control" id="selectCpf" required name="cpf">
                         <?php
                         $r = $db->query("SELECT cpf,nome FROM cliente WHERE ativo=1");
                         $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
