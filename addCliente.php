@@ -2,6 +2,24 @@
     require_once 'conect.php';
     session_start();
     if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
+
+    if( (!empty($_POST['cpf'])) and (!empty($_POST['nome'])) and (!empty($_POST['telefone'])) and (!empty($_POST['endereco'])) ) {
+        $cpf = $_POST['cpf'];
+        $nome = strtolower($_POST['nome']);
+        $telefone = $_POST['telefone'];
+        $endereco = strtolower($_POST['endereco']);
+
+        $r = $db->prepare("SELECT cpf FROM cliente WHERE cpf=?");
+        $r->execute(array($cpf));
+        if($r->rowCount()>0) {$_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Cpf ".$_POST['cpf']." já existente!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";}
+        else {
+            $r = $db->prepare("INSERT INTO cliente(cpf,nome,telefone,endereco) VALUES (?,?,?,?)");
+            $r->execute(array($cpf,$nome,$telefone,$endereco));
+
+            $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Cpf ".$_POST['cpf']." adicionado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+            header("location: cliente.php");
+        }
+    }
 ?>
 
 <!doctype html>
@@ -45,16 +63,16 @@
             <h3><svg class="bi bi-people-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zm-5.784 6A2.238 2.238 0 015 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 005 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" clip-rule="evenodd"/></svg> Adicionar cliente:</h3>
             <form action="addCliente.php" method="post">
                 <div class="form-group">
-                    <input type="number" class="form-control" name="cpf" placeholder="Cpf" min=10000000000 max=99999999999>
+                    <input type="number" class="form-control" required name="cpf" placeholder="Cpf" min=1 max=99999999999>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="nome" placeholder="Nome" maxlength="50">
+                    <input type="text" class="form-control" required name="nome" placeholder="Nome" maxlength="50">
                 </div>
                 <div class="form-group">
-                    <input type="number" class="form-control" name="telefone" placeholder="Telefone" min=10000000000 max=99999999999>
+                    <input type="number" class="form-control" required name="telefone" placeholder="Telefone" min=1000000000 max=99999999999>
                 </div>
                 <div class="form-group">
-                    <textarea class="form-control" name="endereco" rows="3" placeholder="Endereço (rua x, nº 10, bairro y, cidade z - estado w, complemento xyz)" style="resize: none;"></textarea>
+                    <textarea class="form-control" required name="endereco" rows="3" placeholder="Endereço (rua x, nº 10, bairro y, cidade z - estado w, complemento xyz)" style="resize: none;"></textarea>
                 </div>
 
                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
@@ -68,6 +86,8 @@
             </form>
         </div>
     </div>
+
+    <?php if($_SESSION['msgm'] != null) {echo $_SESSION['msgm']; $_SESSION['msgm']=null;} ?>
 
 
 </div>
