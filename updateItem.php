@@ -15,17 +15,27 @@
         }
     }
 
-    if((!empty($_POST['id2'])) and (!empty($_POST['descricao'])) and (!empty($_POST['valor'])) and (!empty($_POST['cnpj']))) {
-        $id = base64_decode($_POST['id2']);
+    if((!empty($_GET['id2'])) and (!empty($_POST['descricao'])) and (!empty($_POST['valor'])) and (!empty($_POST['cnpj']))) {
+        $id = base64_decode($_GET['id2']);
         $descricao = strtolower($_POST['descricao']);
         $valor = $_POST['valor'];
         $cnpj = $_POST['cnpj'];
 
-        $r = $db->prepare("UPDATE item SET descricao=?,valor=?,cnpjFornecedor=? WHERE id=?");
-        $r->execute(array($descricao,$valor,$cnpj,$id));
+        $r = $db->prepare("SELECT ativo FROM fornecedor WHERE cnpj=?");
+        $r->execute(array($cnpj));
+        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($linhas as $l) {$ativo = $l['ativo'];}
 
-        $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Item código ".$id." atualizado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
-        header("location: item.php");
+        if($ativo == 0) {
+            $_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Fornecedor inativo!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+            header("location: item.php");
+        } else {
+            $r = $db->prepare("UPDATE item SET descricao=?,valor=?,cnpjFornecedor=? WHERE id=?");
+            $r->execute(array($descricao, $valor, $cnpj, $id));
+
+            $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Item código " . $id . " atualizado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+            header("location: item.php");
+        }
     }
 ?>
 

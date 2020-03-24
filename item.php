@@ -53,7 +53,7 @@
                 echo "
                     <small><strong>Código:</strong> ".$l['id']."</small>
                     <p><strong>Descrição:</strong> ".$l['descricao']."</p>
-                    <p><strong>Valor: R$</strong> ".$l['valor']."</p>
+                    <p><strong>Valor: R$</strong> ".number_format($l['valor'],2,'.','')."</p>
                     <p><strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
                     <a href='updateItem.php?id=".base64_encode($l['id'])."' class='btn btn-warning btn-sm'>Editar</a>
                     <a href='inativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-danger btn-sm'>Inativar</a>
@@ -72,7 +72,7 @@
                 echo "
                     <small><strong>Código:</strong> ".$l['id']."</small>
                     <p><strong>Descrição:</strong> ".$l['descricao']."</p>
-                    <p><strong>Valor:</strong> ".$l['valor']." km</p>
+                    <p><strong>Valor: R$</strong> ".number_format($l['valor'],2,'.','')."</p>
                     <p><strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
                     <a href='ativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-warning btn-sm'>Ativar</a>
                     <hr>
