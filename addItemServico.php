@@ -1,7 +1,7 @@
 <?php
-    require_once 'conect.php';
-    session_start();
-    if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
+require_once 'conect.php';
+session_start();
+if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
 ?>
 
 <!doctype html>
@@ -42,27 +42,21 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <h3><svg class="bi bi-wrench" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M.102 2.223A3.004 3.004 0 003.78 5.897l6.341 6.252A3.003 3.003 0 0013 16a3 3 0 10-.851-5.878L5.897 3.781A3.004 3.004 0 002.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z" clip-rule="evenodd"/></svg> Adicionar ordem de serviço:</h3>
-            <form action="addItemServico.php" method="post">
+            <h3><svg class="bi bi-wrench" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M.102 2.223A3.004 3.004 0 003.78 5.897l6.341 6.252A3.003 3.003 0 0013 16a3 3 0 10-.851-5.878L5.897 3.781A3.004 3.004 0 002.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z" clip-rule="evenodd"/></svg><svg class="bi bi-droplet-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 16a6 6 0 006-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 006 6zM6.646 4.646c-.376.377-1.272 1.489-2.093 3.13l.894.448c.78-1.559 1.616-2.58 1.907-2.87l-.708-.708z" clip-rule="evenodd"/></svg> Adicionar ítens:</h3>
+            <form action="finalizarServico.php" method="post">
                 <div class="form-group">
                     <label for="selectCnpj">Placa Veículo</label>
                     <select class="form-control" id="selectPlaca" required name="placa">
                         <?php
-                            $r = $db->query("SELECT placa,modelo FROM veiculo WHERE ativo=1");
-                            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                            foreach($linhas as $l) {echo "<option value=".$l['placa'].">".$l['placa']."- ".$l['modelo']."</option>";}
+                        $r = $db->query("SELECT placa,modelo FROM veiculo WHERE ativo=1");
+                        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($linhas as $l) {echo "<option value=".$l['placa'].">".$l['placa']."- ".$l['modelo']."</option>";}
                         ?>
                     </select>
                 </div>
 
-                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                    <div class="btn-group mr-2" role="group">
-                        <a href="painel.php" class="btn btn-danger">Cancelar</a>
-                    </div>
-                    <div class="btn-group mr-2" role="group">
-                        <button type="submit" class="btn btn-primary">Avançar</button>
-                    </div>
-                </div>
+                <a href="cancelarServico.php" class="btn btn-warning">Cancelar Ordem</a>
+                <button type="submit" class="btn btn-success">Finalizar Ordem</button>
             </form>
         </div>
     </div>

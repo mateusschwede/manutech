@@ -16,7 +16,7 @@
             $r2 = $db->prepare("INSERT INTO veiculo(placa,modelo,quilometragem,cpfProprietario) VALUES (?,?,?,?)");
             $r2->execute(array($placa, $modelo, $quilometragem, $cpf));
 
-            $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Veículo placa ".strtoupper($_POST['placa'])." adicionado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+            $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Veículo ".$_POST['placa']." adicionado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
             header("location: veiculo.php");
         }
 
@@ -76,9 +76,9 @@
                     <label for="selectCpf">Cpf Proprietário</label>
                     <select class="form-control" id="selectCpf" required name="cpf">
                         <?php
-                        $r = $db->query("SELECT cpf,nome FROM cliente WHERE ativo=1");
-                        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                        foreach($linhas as $l) {echo "<option value=".$l['cpf'].">".$l['cpf']." ".$l['nome']."</option>";}
+                            $r = $db->query("SELECT cpf,nome FROM cliente WHERE ativo=1");
+                            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                            foreach($linhas as $l) {echo "<option value=".$l['cpf'].">".$l['cpf']." ".$l['nome']."</option>";}
                         ?>
                     </select>
                 </div>

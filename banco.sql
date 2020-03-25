@@ -35,16 +35,6 @@ CREATE TABLE veiculo (
     PRIMARY KEY(placa)
 ) CHARSET=utf8;
 
-CREATE TABLE ordem (
-    id INTEGER NOT NULL AUTO_INCREMENT,
-    placaVeiculo VARCHAR(7) NOT NULL,
-    cpfProprietario BIGINT(11) NOT NULL,
-    dataRegistro DATETIME NOT NULL,
-    valorTotal FLOAT NOT NULL DEFAULT 0.00,
-    aberta BOOLEAN NOT NULL DEFAULT true,
-    PRIMARY KEY(id)
-) CHARSET=utf8;
-
 CREATE TABLE item (
     id INTEGER NOT NULL AUTO_INCREMENT,
     descricao VARCHAR(50) NOT NULL,
@@ -52,6 +42,18 @@ CREATE TABLE item (
     cnpjFornecedor BIGINT(14) NOT NULL,
     ativo BOOLEAN NOT NULL DEFAULT true,
     PRIMARY KEY(id)
+) CHARSET=utf8;
+
+CREATE TABLE ordem (
+   id INTEGER NOT NULL AUTO_INCREMENT,
+   placaVeiculo VARCHAR(7) NOT NULL,
+   cpfProprietario BIGINT(11) NOT NULL,
+   dataRegistro DATETIME NOT NULL,
+   valorTotal FLOAT NOT NULL DEFAULT 0.00,
+   aberta BOOLEAN NOT NULL DEFAULT true,
+   servico VARCHAR(100) DEFAULT "Não descrito",
+   valorServico FLOAT DEFAULT 0.00,
+   PRIMARY KEY(id)
 ) CHARSET=utf8;
 
 CREATE TABLE itemOrdem (
