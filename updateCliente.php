@@ -27,12 +27,9 @@ if((!empty($_GET['cpf2'])) and (!empty($_POST['cpf'])) and (!empty($_POST['nome'
     $telefone = $_POST['telefone'];
     $endereco = strtolower($_POST['endereco']);
 
-    $r = $db->prepare("SELECT cpf FROM cliente WHERE cpf=?");
-    $r->execute(array($cpfNovo));
+    $r = $db->prepare("SELECT cpf FROM cliente WHERE cpf=? AND cpf!=?");
+    $r->execute(array($cpfNovo,$cpf1));
 
-    // IF AQUI: dentro do IF>0, fazer foreach p/ percorrer os cpf iguais, criar $diferente, que é flag de verificação se há cpf diferente
-    // if($['cpf']!=$cpf1) {$diferente=true}
-    // se $diferente=true {mostra msgm e header} senao {continua normalmente o código de update}
     if($r->rowCount()>0) {$_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Cpf ".$cpfNovo." já cadastrado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"; header("location: cliente.php");
     } else {
         $r = $db->prepare("UPDATE cliente,veiculo SET cliente.cpf=?,cliente.nome=?,cliente.telefone=?,cliente.endereco=?,veiculo.cpfProprietario=? WHERE cliente.cpf=? AND veiculo.cpfProprietario=?");
