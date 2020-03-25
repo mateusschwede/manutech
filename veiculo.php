@@ -55,7 +55,7 @@
                     <p><strong>Modelo:</strong> ".$l['modelo']."</p>
                     <p><strong>Quilometragem:</strong> ".$l['quilometragem']." km</p>
                     <p><strong>Proprietário:</strong> ".$l['cpfProprietario']."</p>
-                    <a href='updateVeiculo.php?placa=".$l['placa']."' class='btn btn-warning btn-sm'>Editar</a>
+                    <a href='updateVeiculo.php?placa=".base64_encode($l['placa'])."' class='btn btn-warning btn-sm'>Editar</a>
                     <a href='inativarVeiculo.php?placa=".base64_encode($l['placa'])."' class='btn btn-danger btn-sm'>Inativar</a>
                     <hr>
                 ";

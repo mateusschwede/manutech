@@ -27,7 +27,7 @@
         foreach ($linhas as $l) {$ativo = $l['ativo'];}
 
         if($ativo == 0) {
-            $_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Fornecedor inativo!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+            $_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Cnpj ".$cnpj." inativo!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
             header("location: item.php");
         } else {
             $r = $db->prepare("UPDATE item SET descricao=?,valor=?,cnpjFornecedor=? WHERE id=?");
