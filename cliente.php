@@ -55,7 +55,7 @@ if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header
                         <p><strong>Nome:</strong> ".$l['nome']."</p>
                         <p><strong>Telefone:</strong> ".$l['telefone']."</p>
                         <p><strong>Endereço:</strong> ".$l['endereco']."</p>
-                        <a href='updateCliente.php?cpf=".$l['cpf']."' class='btn btn-warning btn-sm'>Editar</a>
+                        <a href='updateCliente.php?cpf=".base64_encode($l['cpf'])."' class='btn btn-warning btn-sm'>Editar</a>
                         <a href='inativarCliente.php?cpf=".base64_encode($l['cpf'])."' class='btn btn-danger btn-sm'>Inativar</a>
                         <hr>
                     ";

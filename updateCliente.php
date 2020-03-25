@@ -1,12 +1,17 @@
 <?php
+
+// GET[cpf] => recebido só no inicial da outra pg (p/ preencher os campos e identificar o cpf velho no update)
+// $cpf1 = GET[cpf2] => recebido p/ atualizar na mesma pg (ponte que recebe o GET[cpf], que é o cpf1 - velho)
+// POST[cpf] => var input de novo cpf quando atualizado
+
 require_once 'conect.php';
 session_start();
 if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
 
-if((!empty($_GET['cnpj']))) {
-    $cnpj1 = base64_decode($_GET['cnpj']);
-    $r = $db->prepare("SELECT * FROM fornecedor WHERE cnpj=?");
-    $r->execute(array($cnpj1));
+if((!empty($_GET['cpf']))) {
+    $cpf1 = base64_decode($_GET['cpf']);
+    $r = $db->prepare("SELECT * FROM cliente WHERE cpf=?");
+    $r->execute(array($cpf1));
     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
     foreach ($linhas as $l) {
         $nome = $l['nome'];
@@ -15,23 +20,26 @@ if((!empty($_GET['cnpj']))) {
     }
 }
 
-if((!empty($_GET['cnpj2'])) and (!empty($_POST['cnpj'])) and (!empty($_POST['nome'])) and (!empty($_POST['telefone'])) and (!empty($_POST['endereco']))) {
-    $cnpj1 = base64_decode($_GET['cnpj2']);
-    $cnpjNovo = $_POST['cnpj'];
+if((!empty($_GET['cpf2'])) and (!empty($_POST['cpf'])) and (!empty($_POST['nome'])) and (!empty($_POST['telefone'])) and (!empty($_POST['endereco']))) {
+    $cpf1 = base64_decode($_GET['cpf2']);
+    $cpfNovo = $_POST['cpf'];
     $nome = strtolower($_POST['nome']);
     $telefone = $_POST['telefone'];
     $endereco = strtolower($_POST['endereco']);
 
-    $r = $db->prepare("SELECT cnpj FROM fornecedor WHERE cnpj=?");
-    $r->execute(array($cnpjNovo));
+    $r = $db->prepare("SELECT cpf FROM cliente WHERE cpf=?");
+    $r->execute(array($cpfNovo));
 
-    if($r->rowCount()>1) {$_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Cnpj ".$cnpjNovo." já cadastrado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";}
-    else {
-        $r = $db->prepare("UPDATE fornecedor,item SET fornecedor.cnpj=?,fornecedor.nome=?,fornecedor.telefone=?,fornecedor.endereco=?,item.cnpjFornecedor=? WHERE fornecedor.cnpj=? AND item.cnpjFornecedor=?");
-        $r->execute(array($cnpjNovo,$nome,$telefone,$endereco,$cnpjNovo,$cnpj1,$cnpj1));
+    // IF AQUI: dentro do IF>0, fazer foreach p/ percorrer os cpf iguais, criar $diferente, que é flag de verificação se há cpf diferente
+    // if($['cpf']!=$cpf1) {$diferente=true}
+    // se $diferente=true {mostra msgm e header} senao {continua normalmente o código de update}
+    if($r->rowCount()>0) {$_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Cpf ".$cpfNovo." já cadastrado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"; header("location: cliente.php");
+    } else {
+        $r = $db->prepare("UPDATE cliente,veiculo SET cliente.cpf=?,cliente.nome=?,cliente.telefone=?,cliente.endereco=?,veiculo.cpfProprietario=? WHERE cliente.cpf=? AND veiculo.cpfProprietario=?");
+        $r->execute(array($cpfNovo,$nome,$telefone,$endereco,$cpfNovo,$cpf1,$cpf1));
 
-        $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Cnpj ".$cnpjNovo." atualizado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
-        header("location: fornecedor.php");
+        $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Cpf ".$cpfNovo." atualizado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+        header("location: cliente.php");
     }
 }
 ?>
@@ -61,8 +69,8 @@ if((!empty($_GET['cnpj2'])) and (!empty($_POST['cnpj'])) and (!empty($_POST['nom
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="painel.php"><svg class="bi bi-house-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 3.293l6 6V13.5a1.5 1.5 0 01-1.5 1.5h-9A1.5 1.5 0 012 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 01.5-.5h1a.5.5 0 01.5.5z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M7.293 1.5a1 1 0 011.414 0l6.647 6.646a.5.5 0 01-.708.708L8 2.207 1.354 8.854a.5.5 0 11-.708-.708L7.293 1.5z" clip-rule="evenodd"/></svg> Home</a></li>
-                        <li class="nav-item active"><a class="nav-link" href="fornecedor.php"><svg class="bi bi-bag-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M1 4h14v10a2 2 0 01-2 2H3a2 2 0 01-2-2V4zm7-2.5A2.5 2.5 0 005.5 4h-1a3.5 3.5 0 117 0h-1A2.5 2.5 0 008 1.5z"/></svg> Fornecedores</a></li>
-                        <li class="nav-item"><a class="nav-link" href="cliente.php"><svg class="bi bi-people-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zm-5.784 6A2.238 2.238 0 015 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 005 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" clip-rule="evenodd"/></svg> Clientes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="fornecedor.php"><svg class="bi bi-bag-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M1 4h14v10a2 2 0 01-2 2H3a2 2 0 01-2-2V4zm7-2.5A2.5 2.5 0 005.5 4h-1a3.5 3.5 0 117 0h-1A2.5 2.5 0 008 1.5z"/></svg> Fornecedores</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="cliente.php"><svg class="bi bi-people-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zm-5.784 6A2.238 2.238 0 015 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 005 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" clip-rule="evenodd"/></svg> Clientes</a></li>
                         <li class="nav-item"><a class="nav-link" href="veiculo.php"><svg class="bi bi-cone" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7.03 1.88c.252-1.01 1.688-1.01 1.94 0L12 14H4L7.03 1.88z"/><path fill-rule="evenodd" d="M1.5 14a.5.5 0 01.5-.5h12a.5.5 0 010 1H2a.5.5 0 01-.5-.5z" clip-rule="evenodd"/></svg> Veículos</a></li>
                         <li class="nav-item"><a class="nav-link" href="item.php"><svg class="bi bi-droplet-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 16a6 6 0 006-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 006 6zM6.646 4.646c-.376.377-1.272 1.489-2.093 3.13l.894.448c.78-1.559 1.616-2.58 1.907-2.87l-.708-.708z" clip-rule="evenodd"/></svg> Ítens</a></li>
                         <li class="nav-item"><a class="nav-link" href="logout.php" style="color: red;"><svg class="bi bi-power text-danger" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.578 4.437a5 5 0 104.922.044l.5-.866a6 6 0 11-5.908-.053l.486.875z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M7.5 8V1h1v7h-1z" clip-rule="evenodd"/></svg> Logout</a></li>
@@ -74,10 +82,10 @@ if((!empty($_GET['cnpj2'])) and (!empty($_POST['cnpj'])) and (!empty($_POST['nom
 
     <div class="row">
         <div class="col-sm-12">
-            <h3><svg class="bi bi-bag-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M1 4h14v10a2 2 0 01-2 2H3a2 2 0 01-2-2V4zm7-2.5A2.5 2.5 0 005.5 4h-1a3.5 3.5 0 117 0h-1A2.5 2.5 0 008 1.5z"/></svg> Editar fornecedor:</h3>
-            <form action="updateFornecedor.php?cnpj2=<?echo base64_encode($cnpj1)?>" method="post">
+            <h3><svg class="bi bi-people-fill text-danger" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zm-5.784 6A2.238 2.238 0 015 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 005 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" clip-rule="evenodd"/></svg> Atualizar cliente:</h3>
+            <form action="updateCliente.php?cpf2=<?echo base64_encode($cpf1)?>" method="post">
                 <div class="form-group">
-                    <input type="number" class="form-control" required name="cnpj" placeholder="Cnpj" min=00000000000001 max=99999999999999 value="<?echo $cnpj1?>">
+                    <input type="number" class="form-control" required name="cpf" placeholder="Cpf" min=1 max=99999999999 value="<?echo $cpf1?>">
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" required name="nome" placeholder="Nome" maxlength="50" value="<?echo $nome?>">
@@ -91,7 +99,7 @@ if((!empty($_GET['cnpj2'])) and (!empty($_POST['cnpj'])) and (!empty($_POST['nom
 
                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                     <div class="btn-group mr-2" role="group">
-                        <a href="fornecedor.php" class="btn btn-danger">Cancelar</a>
+                        <a href="cliente.php" class="btn btn-danger">Cancelar</a>
                     </div>
                     <div class="btn-group mr-2" role="group">
                         <button type="submit" class="btn btn-primary">Atualizar</button>
