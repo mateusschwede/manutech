@@ -21,6 +21,7 @@ if((!empty($_GET['cpf']))) {
 }
 
 if((!empty($_GET['cpf2'])) and (!empty($_POST['cpf'])) and (!empty($_POST['nome'])) and (!empty($_POST['telefone'])) and (!empty($_POST['endereco']))) {
+
     $cpf1 = base64_decode($_GET['cpf2']);
     $cpfNovo = $_POST['cpf'];
     $nome = strtolower($_POST['nome']);
@@ -32,8 +33,11 @@ if((!empty($_GET['cpf2'])) and (!empty($_POST['cpf'])) and (!empty($_POST['nome'
 
     if($r->rowCount()>0) {$_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Cpf ".$cpfNovo." já cadastrado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"; header("location: cliente.php");
     } else {
-        $r = $db->prepare("UPDATE cliente,veiculo SET cliente.cpf=?,cliente.nome=?,cliente.telefone=?,cliente.endereco=?,veiculo.cpfProprietario=? WHERE cliente.cpf=? AND veiculo.cpfProprietario=?");
-        $r->execute(array($cpfNovo,$nome,$telefone,$endereco,$cpfNovo,$cpf1,$cpf1));
+        $r = $db->prepare("UPDATE cliente SET cpf=?,nome=?,telefone=?,endereco=? WHERE cliente.cpf=?");
+        $r->execute(array($cpfNovo,$nome,$telefone,$endereco,$cpf1));
+
+        $r = $db->prepare("UPDATE veiculo SET cpfProprietario=? WHERE cpfProprietario=?");
+        $r->execute(array($cpfNovo,$cpf1));
 
         $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Cpf ".$cpfNovo." atualizado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
         header("location: cliente.php");

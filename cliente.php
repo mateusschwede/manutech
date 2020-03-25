@@ -47,10 +47,10 @@ if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header
             <h3><svg class="bi bi-people-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zm-5.784 6A2.238 2.238 0 015 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 005 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" clip-rule="evenodd"/></svg> Clientes:</h3>
             <button type="button" class="btn btn-primary" onclick="window.location.href='addCliente.php'">Novo</button><br>
             <?php
-            $r = $db->query("SELECT * FROM cliente WHERE ativo=1 ORDER BY nome DESC");
-            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-            foreach($linhas as $l) {
-                echo "
+                $r = $db->query("SELECT * FROM cliente WHERE ativo=1 ORDER BY nome DESC");
+                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                foreach($linhas as $l) {
+                    echo "
                         <small><strong>Cpf:</strong> ".$l['cpf']."</small>
                         <p><strong>Nome:</strong> ".$l['nome']."</p>
                         <p><strong>Telefone:</strong> ".$l['telefone']."</p>
@@ -59,25 +59,25 @@ if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header
                         <a href='inativarCliente.php?cpf=".base64_encode($l['cpf'])."' class='btn btn-danger btn-sm'>Inativar</a>
                         <hr>
                     ";
-            }
+                }
             ?>
         </div>
 
         <div class="col-sm-4" id="teste">
             <h3><svg class="bi bi-people-fill text-danger" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zm-5.784 6A2.238 2.238 0 015 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 005 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" clip-rule="evenodd"/></svg> Clientes Inativos:</h3>
             <?php
-            $r = $db->query("SELECT * FROM cliente WHERE ativo=0 ORDER BY nome DESC");
-            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-            foreach($linhas as $l) {
-                echo "
-                    <small><strong>Cpf:</strong> ".$l['cpf']."</small>
-                    <p><strong>Nome:</strong> ".$l['nome']."</p>
-                    <p><strong>Telefone:</strong> ".$l['telefone']."</p>
-                    <p><strong>Endereço:</strong> ".$l['endereco']."</p>
-                    <a href='ativarCliente.php?cpf=".base64_encode($l['cpf'])."' class='btn btn-warning btn-sm'>Ativar</a>
-                    <hr>
-                ";
-            }
+                $r = $db->query("SELECT * FROM cliente WHERE ativo=0 ORDER BY nome DESC");
+                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                foreach($linhas as $l) {
+                    echo "
+                        <small><strong>Cpf:</strong> ".$l['cpf']."</small>
+                        <p><strong>Nome:</strong> ".$l['nome']."</p>
+                        <p><strong>Telefone:</strong> ".$l['telefone']."</p>
+                        <p><strong>Endereço:</strong> ".$l['endereco']."</p>
+                        <a href='ativarCliente.php?cpf=".base64_encode($l['cpf'])."' class='btn btn-warning btn-sm'>Ativar</a>
+                        <hr>
+                    ";
+                }
             ?>
         </div>
     </div>
