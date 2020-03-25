@@ -32,8 +32,7 @@ CREATE TABLE veiculo (
     quilometragem FLOAT NOT NULL,
     cpfProprietario BIGINT(11) NOT NULL,
     ativo BOOLEAN NOT NULL DEFAULT true,
-    PRIMARY KEY(placa),
-    FOREIGN KEY(cpfProprietario) REFERENCES cliente(cpf)
+    PRIMARY KEY(placa)
 ) CHARSET=utf8;
 
 CREATE TABLE ordem (
@@ -43,9 +42,7 @@ CREATE TABLE ordem (
     dataRegistro DATETIME NOT NULL,
     valorTotal FLOAT NOT NULL DEFAULT 0.00,
     aberta BOOLEAN NOT NULL DEFAULT true,
-    PRIMARY KEY(id),
-    FOREIGN KEY(placaVeiculo) REFERENCES veiculo(placa),
-    FOREIGN KEY(cpfProprietario) REFERENCES cliente(cpf)
+    PRIMARY KEY(id)
 ) CHARSET=utf8;
 
 CREATE TABLE item (
@@ -54,15 +51,13 @@ CREATE TABLE item (
     valor FLOAT NOT NULL DEFAULT 0.00,
     cnpjFornecedor BIGINT(14) NOT NULL,
     ativo BOOLEAN NOT NULL DEFAULT true,
-    PRIMARY KEY(id),
-    FOREIGN KEY(cnpjFornecedor) REFERENCES fornecedor(cnpj)
+    PRIMARY KEY(id)
 ) CHARSET=utf8;
 
 CREATE TABLE itemOrdem (
     idOrdem INTEGER NOT NULL,
     idItem INTEGER NOT NULL,
-    FOREIGN KEY(idOrdem) REFERENCES ordem(id),
-    FOREIGN KEY(idItem) REFERENCES item(id)
+    valorTotItem FLOAT NOT NULL DEFAULT 0.00
 ) CHARSET=utf8;
 
 INSERT INTO usuario(nome, senha) VALUES ("ma",11111);
