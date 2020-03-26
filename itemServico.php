@@ -11,6 +11,8 @@
      * servico - valorServico
      * (cancelar) (confirmar)
      *
+     * finalizar ordem sem addItens - colocar mensagem "nenhum item foi adicionado..."
+     *
     */
 ?>
 
