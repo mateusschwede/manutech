@@ -1,7 +1,7 @@
 <?php
-require_once 'conect.php';
-session_start();
-if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
+    require_once 'conect.php';
+    session_start();
+    if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
 ?>
 
 <!doctype html>

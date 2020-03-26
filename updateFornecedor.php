@@ -27,8 +27,11 @@ if((!empty($_GET['cnpj2'])) and (!empty($_POST['cnpj'])) and (!empty($_POST['nom
 
     if($r->rowCount()>0) {$_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Cnpj ".$cnpjNovo." já cadastrado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"; header("location: fornecedor.php");}
     else {
-        $r = $db->prepare("UPDATE fornecedor,item SET fornecedor.cnpj=?,fornecedor.nome=?,fornecedor.telefone=?,fornecedor.endereco=?,item.cnpjFornecedor=? WHERE fornecedor.cnpj=? AND item.cnpjFornecedor=?");
-        $r->execute(array($cnpjNovo,$nome,$telefone,$endereco,$cnpjNovo,$cnpj1,$cnpj1));
+        $r = $db->prepare("UPDATE fornecedor,item SET cnpj=?,nome=?,telefone=?,endereco=? WHERE cnpj=?");
+        $r->execute(array($cnpjNovo,$nome,$telefone,$endereco,$cnpj1));
+
+        $r = $db->prepare("UPDATE item SET cnpjFornecedor=? WHERE cnpjFornecedor=?");
+        $r->execute(array($cnpjNovo,$cnpj1));
 
         $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Cnpj ".$cnpjNovo." atualizado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
         header("location: fornecedor.php");

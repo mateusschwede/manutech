@@ -47,37 +47,37 @@
             <h3><svg class="bi bi-droplet-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 16a6 6 0 006-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 006 6zM6.646 4.646c-.376.377-1.272 1.489-2.093 3.13l.894.448c.78-1.559 1.616-2.58 1.907-2.87l-.708-.708z" clip-rule="evenodd"/></svg> Ítens:</h3>
             <button type="button" class="btn btn-primary" onclick="window.location.href='addItem.php'">Novo</button><br>
             <?php
-            $r = $db->query("SELECT * FROM item WHERE ativo=1 ORDER BY id DESC");
-            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-            foreach($linhas as $l) {
-                echo "
-                    <small><strong>Código:</strong> ".$l['id']."</small>
-                    <p><strong>Descrição:</strong> ".$l['descricao']."</p>
-                    <p><strong>Valor: R$</strong> ".number_format($l['valor'],2,'.','')."</p>
-                    <p><strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
-                    <a href='updateItem.php?id=".base64_encode($l['id'])."' class='btn btn-warning btn-sm'>Editar</a>
-                    <a href='inativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-danger btn-sm'>Inativar</a>
-                    <hr>
-                ";
-            }
+                $r = $db->query("SELECT * FROM item WHERE ativo=1 ORDER BY id DESC");
+                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                foreach($linhas as $l) {
+                    echo "
+                        <small><strong>Código:</strong> ".$l['id']."</small>
+                        <p><strong>Descrição:</strong> ".$l['descricao']."</p>
+                        <p><strong>Valor: R$</strong> ".number_format($l['valor'],2,'.','')."</p>
+                        <p><strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
+                        <a href='updateItem.php?id=".base64_encode($l['id'])."' class='btn btn-warning btn-sm'>Editar</a>
+                        <a href='inativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-danger btn-sm'>Inativar</a>
+                        <hr>
+                    ";
+                }
             ?>
         </div>
 
         <div class="col-sm-4" id="teste">
             <h3><svg class="bi bi-droplet-fill text-danger" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 16a6 6 0 006-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 006 6zM6.646 4.646c-.376.377-1.272 1.489-2.093 3.13l.894.448c.78-1.559 1.616-2.58 1.907-2.87l-.708-.708z" clip-rule="evenodd"/></svg> Ítens Inativos:</h3>
             <?php
-            $r = $db->query("SELECT * FROM item WHERE ativo=0 ORDER BY id DESC");
-            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-            foreach($linhas as $l) {
-                echo "
-                    <small><strong>Código:</strong> ".$l['id']."</small>
-                    <p><strong>Descrição:</strong> ".$l['descricao']."</p>
-                    <p><strong>Valor: R$</strong> ".number_format($l['valor'],2,'.','')."</p>
-                    <p><strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
-                    <a href='ativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-warning btn-sm'>Ativar</a>
-                    <hr>
-                ";
-            }
+                $r = $db->query("SELECT * FROM item WHERE ativo=0 ORDER BY id DESC");
+                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                foreach($linhas as $l) {
+                    echo "
+                        <small><strong>Código:</strong> ".$l['id']."</small>
+                        <p><strong>Descrição:</strong> ".$l['descricao']."</p>
+                        <p><strong>Valor: R$</strong> ".number_format($l['valor'],2,'.','')."</p>
+                        <p><strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
+                        <a href='ativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-warning btn-sm'>Ativar</a>
+                        <hr>
+                    ";
+                }
             ?>
         </div>
     </div>

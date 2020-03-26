@@ -1,48 +1,48 @@
 <?php
 
-// GET[cpf] => recebido só no inicial da outra pg (p/ preencher os campos e identificar o cpf velho no update)
-// $cpf1 = GET[cpf2] => recebido p/ atualizar na mesma pg (ponte que recebe o GET[cpf], que é o cpf1 - velho)
-// POST[cpf] => var input de novo cpf quando atualizado
+    // GET[cpf] => recebido só no inicial da outra pg (p/ preencher os campos e identificar o cpf velho no update)
+    // $cpf1 = GET[cpf2] => recebido p/ atualizar na mesma pg (ponte que recebe o GET[cpf], que é o cpf1 - velho)
+    // POST[cpf] => var input de novo cpf quando atualizado
 
-require_once 'conect.php';
-session_start();
-if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
+    require_once 'conect.php';
+    session_start();
+    if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
 
-if((!empty($_GET['cpf']))) {
-    $cpf1 = base64_decode($_GET['cpf']);
-    $r = $db->prepare("SELECT * FROM cliente WHERE cpf=?");
-    $r->execute(array($cpf1));
-    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($linhas as $l) {
-        $nome = $l['nome'];
-        $telefone = $l['telefone'];
-        $endereco = $l['endereco'];
+    if((!empty($_GET['cpf']))) {
+        $cpf1 = base64_decode($_GET['cpf']);
+        $r = $db->prepare("SELECT * FROM cliente WHERE cpf=?");
+        $r->execute(array($cpf1));
+        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($linhas as $l) {
+            $nome = $l['nome'];
+            $telefone = $l['telefone'];
+            $endereco = $l['endereco'];
+        }
     }
-}
 
-if((!empty($_GET['cpf2'])) and (!empty($_POST['cpf'])) and (!empty($_POST['nome'])) and (!empty($_POST['telefone'])) and (!empty($_POST['endereco']))) {
+    if((!empty($_GET['cpf2'])) and (!empty($_POST['cpf'])) and (!empty($_POST['nome'])) and (!empty($_POST['telefone'])) and (!empty($_POST['endereco']))) {
 
-    $cpf1 = base64_decode($_GET['cpf2']);
-    $cpfNovo = $_POST['cpf'];
-    $nome = strtolower($_POST['nome']);
-    $telefone = $_POST['telefone'];
-    $endereco = strtolower($_POST['endereco']);
+        $cpf1 = base64_decode($_GET['cpf2']);
+        $cpfNovo = $_POST['cpf'];
+        $nome = strtolower($_POST['nome']);
+        $telefone = $_POST['telefone'];
+        $endereco = strtolower($_POST['endereco']);
 
-    $r = $db->prepare("SELECT cpf FROM cliente WHERE cpf=? AND cpf!=?");
-    $r->execute(array($cpfNovo,$cpf1));
-
-    if($r->rowCount()>0) {$_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Cpf ".$cpfNovo." já cadastrado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"; header("location: cliente.php");
-    } else {
-        $r = $db->prepare("UPDATE cliente SET cpf=?,nome=?,telefone=?,endereco=? WHERE cliente.cpf=?");
-        $r->execute(array($cpfNovo,$nome,$telefone,$endereco,$cpf1));
-
-        $r = $db->prepare("UPDATE veiculo SET cpfProprietario=? WHERE cpfProprietario=?");
+        $r = $db->prepare("SELECT cpf FROM cliente WHERE cpf=? AND cpf!=?");
         $r->execute(array($cpfNovo,$cpf1));
 
-        $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Cpf ".$cpfNovo." atualizado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
-        header("location: cliente.php");
+        if($r->rowCount()>0) {$_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Cpf ".$cpfNovo." já cadastrado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"; header("location: cliente.php");
+        } else {
+            $r = $db->prepare("UPDATE cliente SET cpf=?,nome=?,telefone=?,endereco=? WHERE cliente.cpf=?");
+            $r->execute(array($cpfNovo,$nome,$telefone,$endereco,$cpf1));
+
+            $r = $db->prepare("UPDATE veiculo SET cpfProprietario=? WHERE cpfProprietario=?");
+            $r->execute(array($cpfNovo,$cpf1));
+
+            $_SESSION['msgm'] = "<br><div class='alert alert-success alert-dismissible fade show' role='alert'>Cpf ".$cpfNovo." atualizado!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+            header("location: cliente.php");
+        }
     }
-}
 ?>
 
 <!doctype html>
