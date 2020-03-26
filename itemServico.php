@@ -4,9 +4,14 @@
     if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
 
     /*
-     * add idItem,qtde,vlrTot(relacionar qtde*vlrUnit tab item) em itemOrdem where idOrdem=varComIdOrdem
-     * ñ pd inserir 2 itens iguais
-     */
+     * Inserir ordem aberta (placa,cpfProp,dataNow)
+     *
+     * (add)
+     * item - precoUnit - qtd - precoTot (remover)
+     * servico - valorServico
+     * (cancelar) (confirmar)
+     *
+    */
 ?>
 
 <!doctype html>
@@ -48,26 +53,24 @@
     <div class="row">
         <div class="col-sm-12">
             <h3><svg class="bi bi-wrench" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M.102 2.223A3.004 3.004 0 003.78 5.897l6.341 6.252A3.003 3.003 0 0013 16a3 3 0 10-.851-5.878L5.897 3.781A3.004 3.004 0 002.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z" clip-rule="evenodd"/></svg><svg class="bi bi-droplet-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 16a6 6 0 006-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 006 6zM6.646 4.646c-.376.377-1.272 1.489-2.093 3.13l.894.448c.78-1.559 1.616-2.58 1.907-2.87l-.708-.708z" clip-rule="evenodd"/></svg> Adicionar ítens:</h3>
-            <form action="addItemServico.php" method="post">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='addItemServico.php'">Adicionar</button><br>
+            <?php
+                //desc,vlrUnit de itemOrdem relacionado com item - qtde e vlrTot(qtde*vlrUnit) de itemOrdem relacionado com item - remover(delItemServico.php)
+            ?>
+            <form action="finalizarServico.php" method="post">
                 <div class="form-group">
-                    <label for="selectItem">Selecione o ítem</label>
-                    <select class="form-control" id="selectItem" name="item">
-                        <?php
-                            $r = $db->query("SELECT id,descricao FROM item WHERE ativo=1");
-                            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                            foreach($linhas as $l) {echo "<option value=".$l['id'].">".$l['id']." ".$l['descricao']."</option>";}
-                        ?>
-                    </select>
+                    <input type="text" class="form-control" required name="servico" placeholder="Descrição do serviço" maxlength="100">
                 </div>
                 <div class="form-group">
-                    <input type="number" class="form-control" required name="qtdeItem" placeholder="Quantidade" min=0 max=1000000>
+                    <input type="number" class="form-control" required name="valorServico" step="0.01" placeholder="Valor do serviço" min=0 max=1000000>
                 </div>
+
                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                     <div class="btn-group mr-2" role="group">
-                        <a href="itemServico.php" class="btn btn-danger">Cancelar</a>
+                        <a href="cancelarServico.php" class="btn btn-warning">Cancelar Ordem</a>
                     </div>
                     <div class="btn-group mr-2" role="group">
-                        <button type="submit" class="btn btn-primary">Adicionar</button>
+                        <button type="submit" class="btn btn-primary">Finalizar Ordem</button>
                     </div>
                 </div>
             </form>

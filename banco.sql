@@ -51,14 +51,15 @@ CREATE TABLE ordem (
    dataRegistro DATETIME NOT NULL,
    valorTotal FLOAT NOT NULL DEFAULT 0.00,
    aberta BOOLEAN NOT NULL DEFAULT true,
-   servico VARCHAR(100) DEFAULT "Não descrito",
-   valorServico FLOAT DEFAULT 0.00,
+   servico VARCHAR(100) NOT NULL DEFAULT "Não descrito",
+   valorServico FLOAT NOT NULL DEFAULT 0.00,
    PRIMARY KEY(id)
 ) CHARSET=utf8;
 
 CREATE TABLE itemOrdem (
     idOrdem INTEGER NOT NULL,
     idItem INTEGER NOT NULL,
+    qtItem INTEGER NOT NULL,
     valorTotItem FLOAT NOT NULL DEFAULT 0.00
 ) CHARSET=utf8;
 
