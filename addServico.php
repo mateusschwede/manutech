@@ -46,7 +46,7 @@
             <form action="itemServico.php" method="post">
                 <div class="form-group">
                     <label for="selectCnpj">Placa Veículo</label>
-                    <select class="form-control" id="selectPlaca" required name="placa">
+                    <select class="form-control" id="selectPlaca" required name="placaAberta">
                         <?php
                             $r = $db->query("SELECT placa,modelo FROM veiculo WHERE ativo=1");
                             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);

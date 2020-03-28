@@ -3,8 +3,19 @@
     session_start();
     if ((empty($_SESSION['nomeLogin'])) or (empty($_SESSION['senhaLogin']))) {header("location: index.php");}
 
+    if (!empty($_POST['placaAberta'])) {
+        $placa = $_POST['placaAberta'];
+
+        $r = $db->prepare("SELECT cpfProprietario FROM veiculo WHERE placa=?");
+        $r->execute(array($placa));
+        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linhas as $l) {$cpfProprietario = $l['cpfProprietario'];}
+
+        $r = $db->prepare("INSERT INTO ordem(placaVeiculo,cpfProprietario,dataRegistro) VALUES (?,?,now())");
+        $r->execute(array($placa,$cpfProprietario));
+    }
     /*
-     * Inserir ordem aberta (placa,cpfProp,dataNow)
+     * Inserir ordem aberta (placa,cpfProp,dataNow) - Feito
      *
      * (add)
      * item - precoUnit - qtd - precoTot (remover)
