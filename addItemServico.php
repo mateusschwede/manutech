@@ -5,14 +5,14 @@
 
     if ((!empty($_POST['item'])) and (!empty($_POST['qtde']))) {
         $item = $_POST['item'];
-        $qtde = $_POST['item'];
+        $qtde = $_POST['qtde'];
 
         $r = $db->prepare("SELECT idItem FROM itemOrdem WHERE idOrdem=? AND idItem=?");
         $r->execute(array($_SESSION['idAberta'],$item));
 
         if ($r->rowCount()>0) {$_SESSION['msgm'] = "<br><div class='alert alert-danger alert-dismissible fade show' role='alert'>Item ".$item." já adicionado à ordem ".$_SESSION['idAberta']."!<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";}
         else {
-            $r = $db->prepare("SELECT valor FROM item WHERE id=?");
+            $r = $db->prepare("SELECT * FROM item WHERE id=?");
             $r->execute(array($item));
             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
             foreach ($linhas as $l) {$valorUnit = $l['valor'];}

@@ -88,7 +88,7 @@
                             <p class='mb-1'><span id='txtAmarelo'><strong>Un :</strong> R$ ".number_format($l2['valor'],2,'.','')."</span> | <span id='txtVerde'><strong>Total: R$ ".number_format($l['valorTotItem'],2,',','')."</strong></span></p>
                             <a href='delItemServico.php?id=".base64_encode($l['idItem'])."' class='btn btn-danger btn-sm'>Remover</a>
                         </a>
-                    </div>
+                        </div>
                     ";
                 }
             ?>
