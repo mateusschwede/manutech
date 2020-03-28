@@ -86,7 +86,7 @@
                         $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
                         foreach($linhas2 as $l2) {$l2['descricao']; $l2['valor'];}
                         echo "
-                            <li class='list-group-item d-flex justify-content-between align-items-center'>
+                            <li class='list-group-item d-flex justify-content-between align-items-center' id='cardAtivo'>
                                 <strong>".$l2['descricao']."</strong><span class='badge badge-primary badge-pill'><strong>Un:</strong> R$ ".$l2['valor']."</span><span class='badge badge-warning badge-pill'><strong>Qtde:</strong> ".$l['qtItem']."</span><span class='badge badge-success badge-pill'><strong>Total: R$ ".$l['valorTotItem']."</strong></span><a href='delItemServico.php?id=".base64_encode($l['idItem'])."' class='btn btn-danger btn-sm'>Remover</a>
                             </li>
                         ";

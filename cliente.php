@@ -53,10 +53,10 @@
                     echo "
                         <br>
                         <div class='list-group'>
-                            <a href='updateCliente.php?cpf=".base64_encode($l['cpf'])."' class='list-group-item list-group-item-action'>
+                            <a href='updateCliente.php?cpf=".base64_encode($l['cpf'])."' class='list-group-item list-group-item-action' id='cardAtivo'>
                                 <div class='d-flex w-100 justify-content-between'>
                                     <h5 class='mb-1'>".$l['nome']."</h5>
-                                    <small class='text-muted'><strong>Cpf</strong> ".$l['cpf']."</small>
+                                    <small class='text-muted'><span id='txtVerde'><strong>Cpf</strong> ".$l['cpf']."</span></small>
                                 </div>
                                 <p class='mb-1'><strong>Telefone:</strong> ".$l['telefone']." | <strong>Endereço:</strong> ".$l['endereco']."</p>
                                 <a href='inativarCliente.php?cpf=".base64_encode($l['cpf'])."' class='btn btn-danger btn-sm'>Inativar</a>
@@ -76,10 +76,10 @@
                     echo "
                         <br>
                         <div class='list-group'>
-                            <a href='#' class='list-group-item list-group-item-action'>
+                            <a href='#' class='list-group-item list-group-item-action' id='cardAtivo'>
                                 <div class='d-flex w-100 justify-content-between'>
                                     <h5 class='mb-1'>".$l['nome']."</h5>
-                                    <small class='text-muted'><strong>Cpf</strong> ".$l['cpf']."</small>
+                                    <small class='text-muted'><span id='txtVermelho'><strong>Cpf</strong> ".$l['cpf']."</span></small>
                                 </div>
                                 <p class='mb-1'><strong>Telefone:</strong> ".$l['telefone']." | <strong>Endereço:</strong> ".$l['endereco']."</p>
                                 <a href='ativarCliente.php?cpf=".base64_encode($l['cpf'])."' class='btn btn-warning btn-sm'>Ativar</a>

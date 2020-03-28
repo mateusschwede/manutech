@@ -53,10 +53,10 @@
                 echo "                    
                     <br>
                     <div class='list-group'>
-                        <a href='updateVeiculo.php?placa=".base64_encode($l['placa'])."' class='list-group-item list-group-item-action'>
+                        <a href='updateVeiculo.php?placa=".base64_encode($l['placa'])."' class='list-group-item list-group-item-action' id='cardAtivo'>
                             <div class='d-flex w-100 justify-content-between'>
                                 <h5 class='mb-1'>".$l['modelo']."</h5>
-                                <small class='text-muted'><strong>Placa</strong> ".$l['placa']."</small>
+                                <small class='text-muted'><span id='txtVerde'><strong>Placa</strong> ".$l['placa']."</span></small>
                             </div>
                             <p class='mb-1'><strong>Km:</strong> ".number_format($l['quilometragem'],2,'.','')." | <strong>Proprietário:</strong> ".$l['cpfProprietario']."</p>
                             <a href='inativarVeiculo.php?placa=".base64_encode($l['placa'])."' class='btn btn-danger btn-sm'>Inativar</a>
@@ -76,10 +76,10 @@
                 echo "
                     <br>
                     <div class='list-group'>
-                        <a href='#' class='list-group-item list-group-item-action'>
+                        <a href='#' class='list-group-item list-group-item-action' id='cardAtivo'>
                             <div class='d-flex w-100 justify-content-between'>
                                 <h5 class='mb-1'>".$l['modelo']."</h5>
-                                <small class='text-muted'><strong>Placa</strong> ".$l['placa']."</small>
+                                <small class='text-muted'><span id='txtVermelho'><strong>Placa</strong> ".$l['placa']."</span></small>
                             </div>
                             <p class='mb-1'><strong>Km:</strong> ".number_format($l['quilometragem'],2,'.','')." | <strong>Proprietário:</strong> ".$l['cpfProprietario']."</p>
                             <a href='ativarVeiculo.php?placa=".base64_encode($l['placa'])."' class='btn btn-warning btn-sm'>Ativar</a>

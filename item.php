@@ -53,10 +53,10 @@
                     echo "
                         <br>
                         <div class='list-group'>
-                            <a href='updateItem.php?id=".base64_encode($l['id'])."' class='list-group-item list-group-item-action'>
+                            <a href='updateItem.php?id=".base64_encode($l['id'])."' class='list-group-item list-group-item-action' id='cardAtivo'>
                                 <div class='d-flex w-100 justify-content-between'>
                                     <h5 class='mb-1'>".$l['descricao']."</h5>
-                                    <small class='text-muted'><strong>Código</strong> ".$l['id']."</small>
+                                    <small class='text-muted'><span id='txtVerde'><strong>Código</strong> ".$l['id']."</span></small>
                                 </div>
                                 <p class='mb-1'><strong>R$:</strong> ".number_format($l['valor'],2,'.','')." | <strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
                                 <a href='inativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-danger btn-sm'>Inativar</a>
@@ -76,10 +76,10 @@
                     echo "
                         <br>
                         <div class='list-group'>
-                            <a href='#' class='list-group-item list-group-item-action'>
+                            <a href='#' class='list-group-item list-group-item-action' id='cardAtivo'>
                                 <div class='d-flex w-100 justify-content-between'>
                                     <h5 class='mb-1'>".$l['descricao']."</h5>
-                                    <small class='text-muted'><strong>Código</strong> ".$l['id']."</small>
+                                    <small class='text-muted'><span id='txtVermelho'><strong>Código</strong> ".$l['id']."</span></small>
                                 </div>
                                 <p class='mb-1'><strong>R$:</strong> ".number_format($l['valor'],2,'.','')." | <strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
                                 <a href='ativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-warning btn-sm'>Ativar</a>
