@@ -96,7 +96,7 @@ if((!empty($_GET['placa2'])) and (!empty($_POST['placa'])) and (!empty($_POST['m
                     <input type="text" class="form-control" required name="modelo" placeholder="Modelo" maxlength="100" value="<?echo $modelo?>" id="inputAmarelo">
                 </div>
                 <div class="form-group">
-                    <input type="number" step="0.01" class="form-control" required name="quilometragem" placeholder="Quilometragem(Km)" min=0 max=9999999 value="<?echo $quilometragem?>" id="inputAmarelo">
+                    <input type="number" step="0.01" class="form-control" required name="quilometragem" placeholder="Quilometragem(Km)" min=0 max=9999999 value="<?echo number_format($quilometragem,2,',','')?>" id="inputAmarelo">
                 </div>
                 <div class="form-group">
                     <label for="selectCpf">Cpf Proprietário</label>

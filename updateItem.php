@@ -83,7 +83,7 @@
                     <input type="text" class="form-control" required name="descricao" placeholder="Descrição" maxlength="50" value="<?echo $descricao?>" id="inputAmarelo">
                 </div>
                 <div class="form-group">
-                    <input type="number" step="0.01" class="form-control" required name="valor" placeholder="Valor(R$) 20.80" min=1 max=1000000 value="<?echo $valor?>" id="inputAmarelo">
+                    <input type="number" step="0.01" class="form-control" required name="valor" placeholder="Valor(R$) 20.80" min=1 max=1000000 value="<?echo number_format($valor,2,',','')?>" id="inputAmarelo">
                 </div>
                 <div class="form-group">
                     <label for="selectCnpj">Cnpj Fornecedor</label>
