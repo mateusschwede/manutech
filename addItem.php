@@ -29,14 +29,14 @@
     <link rel="stylesheet" href="estilo.css">
     <title>ManuTech</title>
 </head>
-<body>
+<body id="login">
 <div class="container-fluid">
 
 
     <div class="row">
         <div class="col-sm-12" id="menu">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" href="painel.php"><img src="https://img.icons8.com/material-two-tone/30/000000/car-service.png" class="d-inline-block align-top"> ManuTech</a>
+                <a class="navbar-brand" href="painel.php"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M70.23333,114.66667c-2.86667,-8.6 -10.75,-14.33333 -20.06667,-14.33333c-9.31667,0 -17.2,5.73333 -20.06667,14.33333h-15.76667v-17.2c0,-3.58333 2.15,-6.45 5.73333,-7.16667l24.36667,-4.3c1.43333,0 2.86667,-0.71667 3.58333,-2.15l24.36667,-24.36667c-0.71667,-2.86667 -0.71667,-6.45 -0.71667,-9.31667c0,-2.15 0,-4.3 0.71667,-6.45c-3.58333,0.71667 -7.16667,2.86667 -10.03333,5.73333l-22.93333,22.93333l-22.21667,4.3c-10.03333,2.15 -17.2,10.75 -17.2,20.78333v24.36667c0,3.58333 2.86667,7.16667 7.16667,7.16667h22.93333c2.86667,8.6 10.75,14.33333 20.06667,14.33333c9.31667,0 17.2,-5.73333 20.06667,-14.33333h22.93333v-14.33333zM50.16667,129c-4.3,0 -7.16667,-3.58333 -7.16667,-7.16667c0,-3.58333 2.86667,-7.16667 7.16667,-7.16667c4.3,0 7.16667,2.86667 7.16667,7.16667c0,4.3 -2.86667,7.16667 -7.16667,7.16667zM129,150.5c-12.18333,0 -21.5,-9.31667 -21.5,-21.5v-41.56667c-12.9,-7.88333 -21.5,-21.5 -21.5,-37.26667c0,-5.01667 0.71667,-9.31667 2.86667,-14.33333l2.86667,-8.6l25.08333,15.76667h5.01667v-5.01667l-15.76667,-25.08333l8.6,-2.86667c5.01667,-2.15 9.31667,-2.86667 14.33333,-2.86667c23.65,0 43,19.35 43,43c0,15.76667 -8.6,29.38333 -21.5,37.26667v41.56667c0,12.18333 -9.31667,21.5 -21.5,21.5zM100.33333,49.45c0,0.71667 0,0.71667 0,0c0,12.18333 6.45,22.21667 17.2,26.51667l4.3,2.15v50.88333c0,4.3 2.86667,7.16667 7.16667,7.16667c4.3,0 7.16667,-2.86667 7.16667,-7.16667v-50.88333l4.3,-2.15c10.75,-4.3 17.2,-14.33333 17.2,-25.8c0,-15.76667 -12.9,-28.66667 -29.38333,-28.66667l7.88333,12.18333v23.65h-23.65z"></path><path d="M129,14.33333c-4.3,0 -8.6,0.71667 -12.18333,2.15l12.18333,19.35v14.33333h-14.33333l-19.35,-12.18333c-1.43333,3.58333 -2.15,7.88333 -2.15,12.18333c0,14.33333 8.6,27.23333 21.5,32.96667v45.86667c0,7.88333 6.45,14.33333 14.33333,14.33333c7.88333,0 14.33333,-6.45 14.33333,-14.33333v-45.86667c12.9,-5.73333 21.5,-17.91667 21.5,-32.96667c0,-20.06667 -15.76667,-35.83333 -35.83333,-35.83333z" opacity="0.3"></path></g></g></svg> ManuTech</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
@@ -57,14 +57,14 @@
             <h3><svg class="bi bi-droplet-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 16a6 6 0 006-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 006 6zM6.646 4.646c-.376.377-1.272 1.489-2.093 3.13l.894.448c.78-1.559 1.616-2.58 1.907-2.87l-.708-.708z" clip-rule="evenodd"/></svg> Adicionar ítem:</h3>
             <form action="addItem.php" method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" required name="descricao" placeholder="Descrição" maxlength="50">
+                    <input type="text" class="form-control" required name="descricao" placeholder="Descrição" maxlength="50" id="inputVerde">
                 </div>
                 <div class="form-group">
-                    <input type="number" step="0.01" class="form-control" required name="valor" placeholder="Valor(R$) 20.80" min=1 max=1000000>
+                    <input type="number" step="0.01" class="form-control" required name="valor" placeholder="Valor(R$) 20.80" min=1 max=1000000 id="inputVerde">
                 </div>
                 <div class="form-group">
                     <label for="selectCnpj">Cnpj Fornecedor</label>
-                    <select class="form-control" id="selectCnpj" name="cnpj">
+                    <select class="form-control" id="inputVerde" name="cnpj">
                         <?php
                             $r = $db->query("SELECT cnpj,nome FROM fornecedor WHERE ativo=1");
                             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);

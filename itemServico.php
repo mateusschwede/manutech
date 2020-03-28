@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="estilo.css">
     <title>ManuTech</title>
 </head>
-<body>
+<body id="login">
 <div class="container-fluid">
 
 
@@ -97,10 +97,10 @@
             <h5>Serviço prestado:</h5>
             <form action="finalizarServico.php" method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" required name="servico" placeholder="Descrição do serviço" maxlength="100">
+                    <input type="text" class="form-control" required name="servico" placeholder="Descrição do serviço" maxlength="100" id="inputVerde">
                 </div>
                 <div class="form-group">
-                    <input type="number" class="form-control" required name="valorServico" step="0.01" placeholder="Valor do serviço" min=0 max=1000000>
+                    <input type="number" class="form-control" required name="valorServico" step="0.01" placeholder="Valor do serviço" min=0 max=1000000 id="inputVerde">
                 </div>
 
                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">

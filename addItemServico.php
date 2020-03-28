@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="estilo.css">
     <title>ManuTech</title>
 </head>
-<body>
+<body id="login">
 <div class="container-fluid">
 
 
@@ -75,7 +75,7 @@
             <form action="addItemServico.php" method="post">
                 <div class="form-group">
                     <label for="selectItem">Selecione o ítem</label>
-                    <select class="form-control" id="selectItem" name="item">
+                    <select class="form-control" id="inputVerde" name="item">
                         <?php
                             $r = $db->query("SELECT id,descricao FROM item WHERE ativo=1");
                             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
@@ -84,7 +84,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <input type="number" class="form-control" required name="qtde" placeholder="Quantidade" min=0 max=1000000>
+                    <input type="number" class="form-control" required name="qtde" placeholder="Quantidade" min=0 max=1000000 id="inputVerde">
                 </div>
                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                     <div class="btn-group mr-2" role="group">

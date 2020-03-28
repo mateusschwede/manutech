@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="estilo.css">
     <title>ManuTech</title>
 </head>
-<body>
+<body id="login">
 <div class="container-fluid">
 
 

@@ -52,7 +52,7 @@ if((!empty($_GET['cnpj2'])) and (!empty($_POST['cnpj'])) and (!empty($_POST['nom
     <link rel="stylesheet" href="estilo.css">
     <title>ManuTech</title>
 </head>
-<body>
+<body id="login">
 <div class="container-fluid">
 
 
@@ -80,16 +80,16 @@ if((!empty($_GET['cnpj2'])) and (!empty($_POST['cnpj'])) and (!empty($_POST['nom
             <h3><svg class="bi bi-bag-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M1 4h14v10a2 2 0 01-2 2H3a2 2 0 01-2-2V4zm7-2.5A2.5 2.5 0 005.5 4h-1a3.5 3.5 0 117 0h-1A2.5 2.5 0 008 1.5z"/></svg> Editar fornecedor:</h3>
             <form action="updateFornecedor.php?cnpj2=<?echo base64_encode($cnpj1)?>" method="post">
                 <div class="form-group">
-                    <input type="number" class="form-control" required name="cnpj" placeholder="Cnpj" min=00000000000001 max=99999999999999 value="<?echo $cnpj1?>">
+                    <input type="number" class="form-control" required name="cnpj" placeholder="Cnpj" min=00000000000001 max=99999999999999 value="<?echo $cnpj1?>" id="inputAmarelo">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" required name="nome" placeholder="Nome" maxlength="50" value="<?echo $nome?>">
+                    <input type="text" class="form-control" required name="nome" placeholder="Nome" maxlength="50" value="<?echo $nome?>" id="inputAmarelo">
                 </div>
                 <div class="form-group">
-                    <input type="number" class="form-control" required name="telefone" placeholder="Telefone" min=1000000000 max=99999999999 value="<?echo $telefone?>">
+                    <input type="number" class="form-control" required name="telefone" placeholder="Telefone" min=1000000000 max=99999999999 value="<?echo $telefone?>" id="inputAmarelo">
                 </div>
                 <div class="form-group">
-                    <textarea class="form-control" required name="endereco" rows="3" placeholder="Endereço (rua x, nº 10, bairro y, cidade z - estado w, complemento xyz)" style="resize: none;"><?echo $endereco?></textarea>
+                    <textarea class="form-control" required name="endereco" rows="3" placeholder="Endereço (rua x, nº 10, bairro y, cidade z - estado w, complemento xyz)" style="resize: none;" id="inputAmarelo"><?echo $endereco?></textarea>
                 </div>
 
                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">

@@ -52,7 +52,7 @@
     <link rel="stylesheet" href="estilo.css">
     <title>ManuTech</title>
 </head>
-<body>
+<body id="login">
 <div class="container-fluid">
 
 
@@ -80,14 +80,14 @@
             <h3><svg class="bi bi-droplet-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 16a6 6 0 006-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 006 6zM6.646 4.646c-.376.377-1.272 1.489-2.093 3.13l.894.448c.78-1.559 1.616-2.58 1.907-2.87l-.708-.708z" clip-rule="evenodd"/></svg> Editar ítem:</h3>
             <form action="updateItem.php?id2=<?echo base64_encode($id)?>" method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" required name="descricao" placeholder="Descrição" maxlength="50" value="<?echo $descricao?>">
+                    <input type="text" class="form-control" required name="descricao" placeholder="Descrição" maxlength="50" value="<?echo $descricao?>" id="inputAmarelo">
                 </div>
                 <div class="form-group">
-                    <input type="number" step="0.01" class="form-control" required name="valor" placeholder="Valor(R$) 20.80" min=1 max=1000000 value="<?echo $valor?>">
+                    <input type="number" step="0.01" class="form-control" required name="valor" placeholder="Valor(R$) 20.80" min=1 max=1000000 value="<?echo $valor?>" id="inputAmarelo">
                 </div>
                 <div class="form-group">
                     <label for="selectCnpj">Cnpj Fornecedor</label>
-                    <select class="form-control" id="selectCnpj" required name="cnpj">
+                    <select class="form-control" id="inputAmarelo" required name="cnpj">
                         <option value="<?echo $l['cnpjFornecedor']?>"><?echo $l['cnpjFornecedor']?></option>
                         <?php
                             $r = $db->query("SELECT cnpj,nome FROM fornecedor WHERE ativo=1");

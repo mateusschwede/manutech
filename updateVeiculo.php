@@ -62,7 +62,7 @@ if((!empty($_GET['placa2'])) and (!empty($_POST['placa'])) and (!empty($_POST['m
     <link rel="stylesheet" href="estilo.css">
     <title>ManuTech</title>
 </head>
-<body>
+<body id="login">
 <div class="container-fluid">
 
 
@@ -90,17 +90,17 @@ if((!empty($_GET['placa2'])) and (!empty($_POST['placa'])) and (!empty($_POST['m
             <h3><svg class="bi bi-cone" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7.03 1.88c.252-1.01 1.688-1.01 1.94 0L12 14H4L7.03 1.88z"/><path fill-rule="evenodd" d="M1.5 14a.5.5 0 01.5-.5h12a.5.5 0 010 1H2a.5.5 0 01-.5-.5z" clip-rule="evenodd"/></svg> Atualizar veículo:</h3>
             <form action="updateVeiculo.php?placa2=<?echo base64_encode($placa1)?>" method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" required name="placa" placeholder="Placa" minlength="7" maxlength="7" value="<?echo $placa1?>">
+                    <input type="text" class="form-control" required name="placa" placeholder="Placa" minlength="7" maxlength="7" value="<?echo $placa1?>" id="inputAmarelo">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" required name="modelo" placeholder="Modelo" maxlength="100" value="<?echo $modelo?>">
+                    <input type="text" class="form-control" required name="modelo" placeholder="Modelo" maxlength="100" value="<?echo $modelo?>" id="inputAmarelo">
                 </div>
                 <div class="form-group">
-                    <input type="number" step="0.01" class="form-control" required name="quilometragem" placeholder="Quilometragem(Km)" min=0 max=9999999 value="<?echo $quilometragem?>">
+                    <input type="number" step="0.01" class="form-control" required name="quilometragem" placeholder="Quilometragem(Km)" min=0 max=9999999 value="<?echo $quilometragem?>" id="inputAmarelo">
                 </div>
                 <div class="form-group">
                     <label for="selectCpf">Cpf Proprietário</label>
-                    <select class="form-control" id="selectCpf" required name="cpfProprietario">
+                    <select class="form-control" id="inputAmarelo" required name="cpfProprietario">
                         <option value="<?echo $l['cpfProprietario']?>"><?echo $l['cpfProprietario']?></option>
                         <?php
                             $r = $db->query("SELECT cpf,nome FROM cliente WHERE ativo=1");
