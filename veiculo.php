@@ -50,14 +50,18 @@
             $r = $db->query("SELECT * FROM veiculo WHERE ativo=1 ORDER BY placa DESC");
             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
             foreach($linhas as $l) {
-                echo "
-                    <small><strong>Placa:</strong> ".$l['placa']."</small>
-                    <p><strong>Modelo:</strong> ".$l['modelo']."</p>
-                    <p><strong>Quilometragem:</strong> ".$l['quilometragem']." km</p>
-                    <p><strong>Proprietário:</strong> ".$l['cpfProprietario']."</p>
-                    <a href='updateVeiculo.php?placa=".base64_encode($l['placa'])."' class='btn btn-warning btn-sm'>Editar</a>
-                    <a href='inativarVeiculo.php?placa=".base64_encode($l['placa'])."' class='btn btn-danger btn-sm'>Inativar</a>
-                    <hr>
+                echo "                    
+                    <br>
+                    <div class='list-group'>
+                        <a href='updateVeiculo.php?placa=".base64_encode($l['placa'])."' class='list-group-item list-group-item-action'>
+                            <div class='d-flex w-100 justify-content-between'>
+                                <h5 class='mb-1'>".$l['modelo']."</h5>
+                                <small class='text-muted'><strong>Placa</strong> ".$l['placa']."</small>
+                            </div>
+                            <p class='mb-1'><strong>Km:</strong> ".number_format($l['quilometragem'],2,'.','')." | <strong>Proprietário:</strong> ".$l['cpfProprietario']."</p>
+                            <a href='inativarVeiculo.php?placa=".base64_encode($l['placa'])."' class='btn btn-danger btn-sm'>Inativar</a>
+                        </a>
+                    </div>
                 ";
             }
             ?>
@@ -70,12 +74,17 @@
             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
             foreach($linhas as $l) {
                 echo "
-                    <small><strong>Placa:</strong> ".$l['placa']."</small>
-                    <p><strong>Modelo:</strong> ".$l['modelo']."</p>
-                    <p><strong>Quilometragem:</strong> ".$l['quilometragem']." km</p>
-                    <p><strong>Proprietário:</strong> ".$l['cpfProprietario']."</p>
-                    <a href='ativarVeiculo.php?placa=".base64_encode($l['placa'])."' class='btn btn-warning btn-sm'>Ativar</a>
-                    <hr>
+                    <br>
+                    <div class='list-group'>
+                        <a href='#' class='list-group-item list-group-item-action'>
+                            <div class='d-flex w-100 justify-content-between'>
+                                <h5 class='mb-1'>".$l['modelo']."</h5>
+                                <small class='text-muted'><strong>Placa</strong> ".$l['placa']."</small>
+                            </div>
+                            <p class='mb-1'><strong>Km:</strong> ".number_format($l['quilometragem'],2,'.','')." | <strong>Proprietário:</strong> ".$l['cpfProprietario']."</p>
+                            <a href='ativarVeiculo.php?placa=".base64_encode($l['placa'])."' class='btn btn-warning btn-sm'>Ativar</a>
+                        </a>
+                    </div>
                 ";
             }
             ?>

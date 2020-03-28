@@ -51,13 +51,17 @@
                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                 foreach($linhas as $l) {
                     echo "
-                        <small><strong>Cpf:</strong> ".$l['cpf']."</small>
-                        <p><strong>Nome:</strong> ".$l['nome']."</p>
-                        <p><strong>Telefone:</strong> ".$l['telefone']."</p>
-                        <p><strong>Endereço:</strong> ".$l['endereco']."</p>
-                        <a href='updateCliente.php?cpf=".base64_encode($l['cpf'])."' class='btn btn-warning btn-sm'>Editar</a>
-                        <a href='inativarCliente.php?cpf=".base64_encode($l['cpf'])."' class='btn btn-danger btn-sm'>Inativar</a>
-                        <hr>
+                        <br>
+                        <div class='list-group'>
+                            <a href='updateCliente.php?cpf=".base64_encode($l['cpf'])."' class='list-group-item list-group-item-action'>
+                                <div class='d-flex w-100 justify-content-between'>
+                                    <h5 class='mb-1'>".$l['nome']."</h5>
+                                    <small class='text-muted'><strong>Cpf</strong> ".$l['cpf']."</small>
+                                </div>
+                                <p class='mb-1'><strong>Telefone:</strong> ".$l['telefone']." | <strong>Endereço:</strong> ".$l['endereco']."</p>
+                                <a href='inativarCliente.php?cpf=".base64_encode($l['cpf'])."' class='btn btn-danger btn-sm'>Inativar</a>
+                            </a>
+                        </div>
                     ";
                 }
             ?>
@@ -70,12 +74,17 @@
                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                 foreach($linhas as $l) {
                     echo "
-                        <small><strong>Cpf:</strong> ".$l['cpf']."</small>
-                        <p><strong>Nome:</strong> ".$l['nome']."</p>
-                        <p><strong>Telefone:</strong> ".$l['telefone']."</p>
-                        <p><strong>Endereço:</strong> ".$l['endereco']."</p>
-                        <a href='ativarCliente.php?cpf=".base64_encode($l['cpf'])."' class='btn btn-warning btn-sm'>Ativar</a>
-                        <hr>
+                        <br>
+                        <div class='list-group'>
+                            <a href='#' class='list-group-item list-group-item-action'>
+                                <div class='d-flex w-100 justify-content-between'>
+                                    <h5 class='mb-1'>".$l['nome']."</h5>
+                                    <small class='text-muted'><strong>Cpf</strong> ".$l['cpf']."</small>
+                                </div>
+                                <p class='mb-1'><strong>Telefone:</strong> ".$l['telefone']." | <strong>Endereço:</strong> ".$l['endereco']."</p>
+                                <a href='ativarCliente.php?cpf=".base64_encode($l['cpf'])."' class='btn btn-warning btn-sm'>Ativar</a>
+                            </a>
+                        </div>
                     ";
                 }
             ?>

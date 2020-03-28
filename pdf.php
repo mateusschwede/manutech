@@ -50,13 +50,13 @@
 
 
             <br>
-            <div class="list-group">
-                <a href="updateFornecedor.php?cnpj=".base64_encode($l['cnpj'])." class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Nome</h5>
-                        <small class="text-muted">Cnpj</small>
+            <div class='list-group'>
+                <a href='updateFornecedor.php?cnpj=".base64_encode($l['cnpj'])."' class='list-group-item list-group-item-action'>
+                    <div class='d-flex w-100 justify-content-between'>
+                        <h5 class='mb-1'>Nome</h5>
+                        <small class='text-muted'><strong>Cnpj</strong>> </small>
                     </div>
-                    <p class="mb-1">Telefone: x | Endereço: y</p>
+                    <p class='mb-1'><strong>Telefone:</strong> x | <strong>Endereço:</strong>> y</p>
                     <a href='inativarFornecedor.php?cnpj=".base64_encode($l['cnpj'])."' class='btn btn-danger btn-sm'>Inativar</a>
                 </a>
             </div>

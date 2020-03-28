@@ -51,13 +51,17 @@
                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                 foreach($linhas as $l) {
                     echo "
-                        <small><strong>Código:</strong> ".$l['id']."</small>
-                        <p><strong>Descrição:</strong> ".$l['descricao']."</p>
-                        <p><strong>Valor: R$</strong> ".number_format($l['valor'],2,'.','')."</p>
-                        <p><strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
-                        <a href='updateItem.php?id=".base64_encode($l['id'])."' class='btn btn-warning btn-sm'>Editar</a>
-                        <a href='inativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-danger btn-sm'>Inativar</a>
-                        <hr>
+                        <br>
+                        <div class='list-group'>
+                            <a href='updateItem.php?id=".base64_encode($l['id'])."' class='list-group-item list-group-item-action'>
+                                <div class='d-flex w-100 justify-content-between'>
+                                    <h5 class='mb-1'>".$l['descricao']."</h5>
+                                    <small class='text-muted'><strong>Código</strong> ".$l['id']."</small>
+                                </div>
+                                <p class='mb-1'><strong>R$:</strong> ".number_format($l['valor'],2,'.','')." | <strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
+                                <a href='inativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-danger btn-sm'>Inativar</a>
+                            </a>
+                        </div>
                     ";
                 }
             ?>
@@ -70,12 +74,17 @@
                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                 foreach($linhas as $l) {
                     echo "
-                        <small><strong>Código:</strong> ".$l['id']."</small>
-                        <p><strong>Descrição:</strong> ".$l['descricao']."</p>
-                        <p><strong>Valor: R$</strong> ".number_format($l['valor'],2,'.','')."</p>
-                        <p><strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
-                        <a href='ativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-warning btn-sm'>Ativar</a>
-                        <hr>
+                        <br>
+                        <div class='list-group'>
+                            <a href='#' class='list-group-item list-group-item-action'>
+                                <div class='d-flex w-100 justify-content-between'>
+                                    <h5 class='mb-1'>".$l['descricao']."</h5>
+                                    <small class='text-muted'><strong>Código</strong> ".$l['id']."</small>
+                                </div>
+                                <p class='mb-1'><strong>R$:</strong> ".number_format($l['valor'],2,'.','')." | <strong>Fornecedor:</strong> ".$l['cnpjFornecedor']."</p>
+                                <a href='ativarItem.php?id=".base64_encode($l['id'])."' class='btn btn-warning btn-sm'>Ativar</a>
+                            </a>
+                        </div>
                     ";
                 }
             ?>
