@@ -59,7 +59,7 @@ CREATE TABLE ordem (
 CREATE TABLE itemOrdem (
     idOrdem INTEGER NOT NULL,
     idItem INTEGER NOT NULL,
-    qtItem INTEGER NOT NULL,
+    qtItem INTEGER(100) NOT NULL,
     valorTotItem FLOAT NOT NULL DEFAULT 0.00
 ) CHARSET=utf8;
 

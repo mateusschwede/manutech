@@ -65,6 +65,7 @@
                 ";
             }
             ?>
+            <br>
         </div>
 
         <div class="col-sm-4" id="teste">
@@ -88,6 +89,7 @@
                 ";
             }
             ?>
+            <br>
         </div>
     </div>
 

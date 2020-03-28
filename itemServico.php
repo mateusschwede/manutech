@@ -72,27 +72,33 @@
     <div class="row">
         <div class="col-sm-12">
             <h3><svg class="bi bi-wrench" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M.102 2.223A3.004 3.004 0 003.78 5.897l6.341 6.252A3.003 3.003 0 0013 16a3 3 0 10-.851-5.878L5.897 3.781A3.004 3.004 0 002.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z" clip-rule="evenodd"/></svg><svg class="bi bi-droplet-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 16a6 6 0 006-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 006 6zM6.646 4.646c-.376.377-1.272 1.489-2.093 3.13l.894.448c.78-1.559 1.616-2.58 1.907-2.87l-.708-.708z" clip-rule="evenodd"/></svg> Adicionar ítens:</h3>
+            <h5 id="txtVerde">Ordem nº <?php echo $_SESSION['idAberta']; ?></h5>
             <button type="button" class="btn btn-primary" onclick="window.location.href='addItemServico.php'">Adicionar</button><br>
-            <br>
-            <ul class='list-group'>
-                <?php
-                    //desc,vlrUnit - qtde e vlrTot - remover(delItemServico.php)
-                    $r = $db->prepare("SELECT * FROM itemOrdem WHERE idOrdem=?");
-                    $r->execute(array($_SESSION['idAberta']));
-                    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                    foreach($linhas as $l) {
-                        $r = $db->prepare("SELECT descricao,valor FROM item WHERE id=?");
-                        $r->execute(array($l['idItem']));
-                        $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
-                        foreach($linhas2 as $l2) {$l2['descricao']; $l2['valor'];}
-                        echo "
-                            <li class='list-group-item d-flex justify-content-between align-items-center' id='cardAtivo'>
-                                <strong>".$l2['descricao']."</strong><span class='badge badge-primary badge-pill'><strong>Un:</strong> R$ ".$l2['valor']."</span><span class='badge badge-warning badge-pill'><strong>Qtde:</strong> ".$l['qtItem']."</span><span class='badge badge-success badge-pill'><strong>Total: R$ ".$l['valorTotItem']."</strong></span><a href='delItemServico.php?id=".base64_encode($l['idItem'])."' class='btn btn-danger btn-sm'>Remover</a>
-                            </li>
-                        ";
-                    }
-                ?>
-            </ul>
+            <?php
+                //desc,vlrUnit - qtde e vlrTot - remover(delItemServico.php)
+                $r = $db->prepare("SELECT * FROM itemOrdem WHERE idOrdem=?");
+                $r->execute(array($_SESSION['idAberta']));
+                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                foreach($linhas as $l) {
+                    $r = $db->prepare("SELECT descricao,valor FROM item WHERE id=?");
+                    $r->execute(array($l['idItem']));
+                    $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
+                    foreach($linhas2 as $l2) {$l2['descricao']; $l2['valor'];}
+                    echo "
+                        <br>
+                        <div class='list-group'>
+                        <a href='#' class='list-group-item list-group-item-action' id='cardAtivo'>
+                            <div class='d-flex w-100 justify-content-between'>
+                                <h5 class='mb-1'>".$l2['descricao']."</h5>
+                                <small class='text-muted'><span id='txtAmarelo'><strong>Qtde:</strong> ".$l['qtItem']."</span></small>
+                            </div>
+                            <p class='mb-1'><span id='txtAmarelo'><strong>Un :</strong> R$ ".number_format($l2['valor'],2,'.','')."</span> | <span id='txtVerde'><strong>Total: R$ ".number_format($l['valorTotItem'],2,',','')."</strong></span></p>
+                            <a href='delItemServico.php?id=".base64_encode($l['idItem'])."' class='btn btn-danger btn-sm'>Remover</a>
+                        </a>
+                    </div>
+                    ";
+                }
+            ?>
             <br>
             <h5>Serviço prestado:</h5>
             <form action="finalizarServico.php" method="post">
