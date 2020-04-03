@@ -48,26 +48,27 @@
                         <hr>
                         <h4><svg class='bi bi-droplet-fill' width='1em' height='1em' viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M8 16a6 6 0 006-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 006 6zM6.646 4.646c-.376.377-1.272 1.489-2.093 3.13l.894.448c.78-1.559 1.616-2.58 1.907-2.87l-.708-.708z' clip-rule='evenodd'/></svg> <strong>Ítens utilizados:</strong></h4>
                     ";
-                    // SELECT pra ver se há itens cadastrados na ordem $_SESSION['aberta']. Se há, cadastra normal, senão mostra mensagem
                 }
 
                 $r = $db->prepare("SELECT * FROM itemOrdem WHERE idOrdem=?");
                 $r->execute(array($idOrdem));
                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
 
-                foreach ($linhas as $l) {
-                    $r2 = $db->prepare("SELECT * FROM item WHERE id=?");
-                    $r2->execute(array($l['idItem']));
-                    $linhas2 = $r2->fetchAll(PDO::FETCH_ASSOC);
+                if ($r->rowCount()>0) {
+                    foreach ($linhas as $l) {
+                        $r2 = $db->prepare("SELECT * FROM item WHERE id=?");
+                        $r2->execute(array($l['idItem']));
+                        $linhas2 = $r2->fetchAll(PDO::FETCH_ASSOC);
 
-                    foreach ($linhas2 as $l2) {
-                        echo "
+                        foreach ($linhas2 as $l2) {
+                            echo "
                             <p><strong>Descrição:</strong> " . $l2['descricao'] . "</p>
                             <p><strong>Quantidade:</strong> " . $l['qtItem'] . " | <strong>Valor Un:</strong> R$ " . number_format($l2['valor'], 2, ',', '') . " | <strong>Valor Tot:</strong> R$ " . $l['valorTotItem'] . "</p>
                             <br>
                         ";
+                        }
                     }
-                }
+                } else {echo "Não há itens adicionados";}
             ?>
             <br>
             <button class="btn btn-primary" onClick="window.print()">Imprimir</button>
