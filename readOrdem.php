@@ -24,14 +24,14 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <h2><u>Ordem <?php echo $idOrdem ?>:</u></h2>
+            <h2><u>Ordem de serviço <?php echo $idOrdem ?>:</u></h2>
             <?php
                 $r = $db->prepare("SELECT * FROM ordem WHERE id=?");
                 $r->execute(array($idOrdem));
                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                 foreach ($linhas as $l) {
                     echo "
-                        <small>Emissão: ".$l['dataRegistro']."</small>
+                        <small><strong>Emissão:</strong> ".$l['dataRegistro']."</small>
                         
                         <hr>
                         <h4><svg class='bi bi-people-fill ' width='1em' height='1em' viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zm-5.784 6A2.238 2.238 0 015 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 005 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z' clip-rule='evenodd'/></svg> <strong>Dados do proprietário:</strong></h4>
@@ -41,19 +41,32 @@
                         <h4><svg class='bi bi-wrench' width='1em' height='1em' viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M.102 2.223A3.004 3.004 0 003.78 5.897l6.341 6.252A3.003 3.003 0 0013 16a3 3 0 10-.851-5.878L5.897 3.781A3.004 3.004 0 002.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z' clip-rule='evenodd'/></svg> <strong>Serviço prestado:</strong></h4>
                         <p><strong>Descrição:</strong> ".$l['servico']."</p>
                         <p><strong>Valor:</strong> R$ ".number_format($l['valorServico'],2,',','')."</p>
+                                              
+                        <hr>
+                        <h4><strong>Total: R$ ".number_format($l['valorTotal'],2,',','')."</strong></h4>
                         
                         <hr>
                         <h4><svg class='bi bi-droplet-fill' width='1em' height='1em' viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M8 16a6 6 0 006-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 006 6zM6.646 4.646c-.376.377-1.272 1.489-2.093 3.13l.894.448c.78-1.559 1.616-2.58 1.907-2.87l-.708-.708z' clip-rule='evenodd'/></svg> <strong>Ítens utilizados:</strong></h4>
-                        Itens aqui....
-                        <hr>
-                        <h4><strong>Total: R$ ".number_format($l['valorTotal'],2,',','')."</strong></h4>
                     ";
-
-                    //Dados itemOrdem
-                    //Table item relacionar com itemOrdem
-
                     // SELECT pra ver se há itens cadastrados na ordem $_SESSION['aberta']. Se há, cadastra normal, senão mostra mensagem
-                    //Isso acima se refere ao 'pdf.php', que só mostrará no read da ordem em questão
+                }
+
+                $r = $db->prepare("SELECT * FROM itemOrdem WHERE idOrdem=?");
+                $r->execute(array($idOrdem));
+                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach ($linhas as $l) {
+                    $r2 = $db->prepare("SELECT * FROM item WHERE id=?");
+                    $r2->execute(array($l['idItem']));
+                    $linhas2 = $r2->fetchAll(PDO::FETCH_ASSOC);
+
+                    foreach ($linhas2 as $l2) {
+                        echo "
+                            <p><strong>Descrição:</strong> " . $l2['descricao'] . "</p>
+                            <p><strong>Quantidade:</strong> " . $l['qtItem'] . " | <strong>Valor Un:</strong> R$ " . number_format($l2['valor'], 2, ',', '') . " | <strong>Valor Tot:</strong> R$ " . $l['valorTotItem'] . "</p>
+                            <br>
+                        ";
+                    }
                 }
             ?>
             <br>

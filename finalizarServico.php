@@ -13,7 +13,7 @@
         $r = $db->prepare("SELECT sum(valorTotItem) FROM itemOrdem WHERE idOrdem=?");
         $r->execute(array($_SESSION['idAberta']));
         $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($linhas as $l) {$totItens = $l['sum(valorTotItens)'];}
+        foreach ($linhas as $l) {$totItens = $l['sum(valorTotItem)'];}
 
         //Atualizar valorTotal na ordem
         $valorTotal = $totItens+$valorServico;
