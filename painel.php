@@ -13,6 +13,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel="shortcut icon" href="https://img.icons8.com/material-two-tone/24/000000/car-service.png"/>
     <link rel="stylesheet" href="estilo.css">
     <title>ManuTech</title>
@@ -41,6 +42,37 @@
     </div>
 
     <?php if($_SESSION['msgm'] != null) {echo $_SESSION['msgm']; $_SESSION['msgm']=null;} ?>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Resultados:</h3>
+            <script type="text/javascript">
+                google.charts.load("current", {packages:["corechart"]});
+                google.charts.setOnLoadCallback(drawChart);
+                function drawChart() {
+                    var data = google.visualization.arrayToDataTable([
+                        ['Saldo', 'Valor'],
+                        ['Positivo',11],
+                        ['Negativo',2]
+                    ]);
+                    var options = {
+                        backgroundColor: '#303340',
+                        pieHole: 0.4,
+                        pieSliceTextStyle: {color: 'white'},
+                        legend: {textStyle:{color:'white'}},
+                        slices: {
+                            0: { color: '#889aff' },
+                            1: { color: '#a476b8' }
+                        }
+                    };
+                    var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+                    chart.draw(data, options);
+                }
+            </script>
+            <div id="donutchart" style="width: 30em; height: 17em;"></div>
+            <hr id="linha">
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-sm-12">
